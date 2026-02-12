@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:herplus_app/project_details.dart';
 import 'package:herplus_app/system_settings.dart';
 
 import 'breathing_exercises.dart';
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
   static const String breathingExercisesPage = '呼吸练习';
   static const String systemSettingsPage = '系统设置';
   static const String deviceManager = '设备管家';
+  static const String projectDetails = '项目详情';
+  static const String expertDetails = '专家详情页';
 
   static const List<String> pageTitles = [
     dataPrivacy,
@@ -45,7 +48,8 @@ class MyApp extends StatelessWidget {
     breathingExercisesPage,
     systemSettingsPage,
     deviceManager,
-    '专家详情页',
+    projectDetails,
+    expertDetails,
   ];
 
   @override
@@ -96,6 +100,9 @@ class MainPage extends StatelessWidget {
     }
     if (title == MyApp.deviceManager) {
       return const DeviceManagerPage();
+    }
+    if(title == MyApp.projectDetails) {
+      return const ProjectDetailPage();
     }
     return const BlankPage();
   }
