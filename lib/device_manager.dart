@@ -339,7 +339,7 @@ class DeviceManagerPage extends StatelessWidget {
                                     color: Color(0xFFE4E4E4),
                                   ),
                                 ),
-                                child: Text('设备解绑'),
+                                child: Text('设备解绑',style: TextStyle(color: Colors.red),),
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(

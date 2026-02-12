@@ -9,6 +9,7 @@ import 'package:herplus_app/system_settings.dart';
 
 import 'breathing_exercises.dart';
 import 'device_manager.dart';
+import 'expert_details.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,6 +104,9 @@ class MainPage extends StatelessWidget {
     }
     if(title == MyApp.projectDetails) {
       return const ProjectDetailPage();
+    }
+    if (title == MyApp.expertDetails) {
+      return const ExpertDetailsPage();
     }
     return const BlankPage();
   }
