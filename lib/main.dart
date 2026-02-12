@@ -3717,116 +3717,23 @@ class _BodyDataPage extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 5,
+                                    _VerticalPicker(
+                                      values: List.generate(
+                                        100,
+                                        (index) => 1950 + index,
                                       ),
-                                      alignment: Alignment.center,
-                                      height: 50,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x63FFFFFF),
-                                        borderRadius: BorderRadius.circular(18),
-                                        border: Border.all(
-                                          color: const Color(0xFFE4E4E4),
-                                          width: 1.0,
-                                        ),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0x21918264),
-                                            offset: Offset(0, 5),
-                                            blurRadius: 3.7,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('1993'),
-                                          Text(
-                                            '年',
-                                            style: TextStyle(
-                                              color: Colors.black45,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      initialValue: 1993,
+                                      suffix: '年',
                                     ),
-                                    Container(
-                                      height: 50,
-                                      width: 100,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 5,
-                                      ),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x63FFFFFF),
-                                        borderRadius: BorderRadius.circular(18),
-                                        border: Border.all(
-                                          color: const Color(0xFFE4E4E4),
-                                          width: 1.0,
-                                        ),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0x21918264),
-                                            offset: Offset(0, 5),
-                                            blurRadius: 3.7,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('11'),
-                                          Text(
-                                            '月',
-                                            style: TextStyle(
-                                              color: Colors.black45,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    _VerticalPicker(
+                                      values: List.generate(12, (index) => index + 1),
+                                      initialValue: 11,
+                                      suffix: '月',
                                     ),
-                                    Container(
-                                      height: 50,
-                                      width: 100,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 5,
-                                      ),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x63FFFFFF),
-                                        borderRadius: BorderRadius.circular(18),
-                                        border: Border.all(
-                                          color: const Color(0xFFE4E4E4),
-                                          width: 1.0,
-                                        ),
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            color: Color(0x21918264),
-                                            offset: Offset(0, 5),
-                                            blurRadius: 3.7,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text('30'),
-                                          Text(
-                                            '日',
-                                            style: TextStyle(
-                                              color: Colors.black45,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                    _VerticalPicker(
+                                      values: List.generate(31, (index) => index + 1),
+                                      initialValue: 30,
+                                      suffix: '日',
                                     ),
                                   ],
                                 ),
@@ -4492,6 +4399,143 @@ class _RulerPickerState extends State<_RulerPicker> {
   }
 }
 
+class _VerticalPicker extends StatefulWidget {
+  final List<int> values;
+  final int initialValue;
+  final String suffix;
+  final ValueChanged<int>? onChanged;
+
+  const _VerticalPicker({
+    required this.values,
+    required this.initialValue,
+    required this.suffix,
+    this.onChanged,
+  });
+
+  @override
+  State<_VerticalPicker> createState() => _VerticalPickerState();
+}
+
+class _VerticalPickerState extends State<_VerticalPicker> {
+  late final ScrollController _scrollController;
+  late int _selectedValue;
+  static const double _itemHeight = 40.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue;
+    final index = widget.values.indexOf(_selectedValue);
+    _scrollController = ScrollController(
+      initialScrollOffset: index * _itemHeight,
+    );
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final offset = _scrollController.offset;
+    final index = (offset / _itemHeight).round().clamp(
+          0,
+          widget.values.length - 1,
+        );
+    final newValue = widget.values[index];
+    if (newValue != _selectedValue) {
+      setState(() => _selectedValue = newValue);
+      widget.onChanged?.call(newValue);
+    }
+  }
+
+  void _snapToNearestItem() {
+    final offset = _scrollController.offset;
+    final index = (offset / _itemHeight)
+        .round()
+        .clamp(0, widget.values.length - 1);
+    final targetOffset = index * _itemHeight;
+    if ((offset - targetOffset).abs() > 0.5) {
+      _scrollController.animateTo(
+        targetOffset,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: 100,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: const Color(0x63FFFFFF),
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Stack(
+        children: [
+          NotificationListener<ScrollEndNotification>(
+            onNotification: (notification) {
+              _snapToNearestItem();
+              return true;
+            },
+            child: ListView.builder(
+              controller: _scrollController,
+              physics: const ClampingScrollPhysics(),
+              padding: EdgeInsets.symmetric(
+                vertical: (50 - _itemHeight) / 2,
+              ),
+              itemCount: widget.values.length,
+              itemExtent: _itemHeight,
+              itemBuilder: (context, index) {
+                final value = widget.values[index];
+                final isSelected = value == _selectedValue;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          '$value',
+                          style: TextStyle(
+                            fontSize: isSelected ? 16 : 14,
+                            fontWeight:
+                                isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color: isSelected
+                                ? const Color(0xFF333333)
+                                : const Color(0xFF999999),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                      child: Center(
+                        child: Text(
+                          widget.suffix,
+                          style: const TextStyle(
+                            color: Colors.black45,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _FixedNumberSelector extends StatefulWidget {
   final List<int> values;
   final int initialValue;
@@ -4764,56 +4808,61 @@ class _GridCalendarState extends State<GridCalendar> {
                 ],
               ),
             ),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: calendarDays.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 7,
-                childAspectRatio: 1,
-              ),
-              itemBuilder: (context, index) {
-                final day = calendarDays[index];
+            SizedBox(
+              height: 250, // 固定高度：5行 × 40px
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 35, // 固定35个格子（5行 × 7列）
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 7,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) {
+                  final day = index < calendarDays.length
+                      ? calendarDays[index]
+                      : null;
 
-                if (day == null) return const SizedBox();
+                  if (day == null) return const SizedBox();
 
-                final selected = isSameDay(day, selectedDay);
+                  final selected = isSameDay(day, selectedDay);
 
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedDay = day;
-                    });
-                  },
-                  child: Center(
-                    child: Container(
-                      padding: selected
-                          ? const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 3,
-                            )
-                          : null,
-                      decoration: selected
-                          ? BoxDecoration(
-                              color: const Color(
-                                0xFFE9A19A,
-                              ).withValues(alpha: 0.8),
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          : null,
-                      child: selected
-                          ? Icon(Icons.star, size: 18, color: Colors.amber)
-                          : Text(
-                              "${day.day}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black87,
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedDay = day;
+                      });
+                    },
+                    child: Center(
+                      child: Container(
+                        padding: selected
+                            ? const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 3,
+                              )
+                            : null,
+                        decoration: selected
+                            ? BoxDecoration(
+                                color: const Color(
+                                  0xFFE9A19A,
+                                ).withValues(alpha: 0.8),
+                                borderRadius: BorderRadius.circular(20),
+                              )
+                            : null,
+                        child: selected
+                            ? Icon(Icons.star, size: 18, color: Colors.amber)
+                            : Text(
+                                "${day.day}",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
                               ),
-                            ),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
