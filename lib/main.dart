@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   static const String genderCognition = '性别认知';
   static const String trackingIntent = '追踪意愿';
   static const String cycleDetails = '周期详情';
+  static const String bodyData = '身体数据';
 
   static const List<String> pageTitles = [
     dataPrivacy,
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
     genderCognition,
     trackingIntent,
     cycleDetails,
-    '身体数据',
+    bodyData,
     '隐私承诺',
     '查找设备',
     '呼吸练习',
@@ -72,6 +73,9 @@ class MainPage extends StatelessWidget {
     }
     if (title == MyApp.cycleDetails) {
       return const CycleDetails();
+    }
+    if (title == MyApp.bodyData) {
+      return const _BodyDataPage();
     }
     return const BlankPage();
   }
@@ -3527,6 +3531,420 @@ class CycleDetails extends StatelessWidget {
   }
 }
 
+class _BodyDataPage extends StatelessWidget {
+  const _BodyDataPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        // appBar: AppBar(),
+        backgroundColor: Colors.transparent,
+        extendBody: true,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final contentWidth = screenWidth < 375 ? screenWidth : 375.0;
+            final leftInset = (contentWidth - 319) / 2;
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/cycle_details/cd_bg_main.png',
+                      ),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.0, 0.34, 0.72, 1.0],
+                      colors: [
+                        Color(0x14FFFFFF),
+                        Color(0x0FECE8D7),
+                        Color(0x22E4DFC5),
+                        Color(0x2ED7D2B4),
+                      ],
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 400),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: leftInset),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 30),
+                            Text(
+                              '建立您的能量基石',
+                              style: TextStyle(
+                                fontSize: 28,
+                                height: 1.5,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                            const SizedBox(height: 25),
+                            Text('HerPlus 结合您的基础数据，才能精准计算每一次心跳带来的能量消耗'),
+                            const SizedBox(height: 30),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('出生日期'),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      alignment: Alignment.center,
+                                      height: 50,
+                                      width: 100,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0x63FFFFFF),
+                                        borderRadius: BorderRadius.circular(18),
+                                        border: Border.all(
+                                          color: const Color(0xFFE4E4E4),
+                                          width: 1.0,
+                                        ),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x21918264),
+                                            offset: Offset(0, 5),
+                                            blurRadius: 3.7,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('1993'),
+                                          Text(
+                                            '年',
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 50,
+                                      width: 100,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0x63FFFFFF),
+                                        borderRadius: BorderRadius.circular(18),
+                                        border: Border.all(
+                                          color: const Color(0xFFE4E4E4),
+                                          width: 1.0,
+                                        ),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x21918264),
+                                            offset: Offset(0, 5),
+                                            blurRadius: 3.7,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('11'),
+                                          Text(
+                                            '月',
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 50,
+                                      width: 100,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 5,
+                                      ),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0x63FFFFFF),
+                                        borderRadius: BorderRadius.circular(18),
+                                        border: Border.all(
+                                          color: const Color(0xFFE4E4E4),
+                                          width: 1.0,
+                                        ),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color(0x21918264),
+                                            offset: Offset(0, 5),
+                                            blurRadius: 3.7,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text('30'),
+                                          Text(
+                                            '日',
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: const Color(0x63FFFFFF),
+                                borderRadius: BorderRadius.circular(18),
+                                border: Border.all(
+                                  color: const Color(0xFFE4E4E4),
+                                  width: 1.0,
+                                ),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x21918264),
+                                    offset: Offset(0, 5),
+                                    blurRadius: 3.7,
+                                  ),
+                                ],
+                              ),
+                              child: _RulerPicker(
+                                label: '身高',
+                                unit: 'cm',
+                                minValue: 100,
+                                maxValue: 220,
+                                initialValue: 165,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _RulerPicker extends StatefulWidget {
+  final int minValue;
+  final int maxValue;
+  final int initialValue;
+  final String unit;
+  final String label;
+  final ValueChanged<int>? onChanged;
+
+  const _RulerPicker({
+    required this.minValue,
+    required this.maxValue,
+    required this.initialValue,
+    this.unit = '',
+    this.label = '',
+    this.onChanged,
+  });
+
+  @override
+  State<_RulerPicker> createState() => _RulerPickerState();
+}
+
+class _RulerPickerState extends State<_RulerPicker> {
+  late final ScrollController _scrollController;
+  late int _currentValue;
+
+  /// 每个最小刻度的宽度
+  static const double _tickSpacing = 8.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentValue = widget.initialValue;
+    _scrollController = ScrollController(
+      initialScrollOffset: (_currentValue - widget.minValue) * _tickSpacing,
+    );
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final offset = _scrollController.offset;
+    final value = (offset / _tickSpacing).round() + widget.minValue;
+    final clamped = value.clamp(widget.minValue, widget.maxValue);
+    if (clamped != _currentValue) {
+      setState(() => _currentValue = clamped);
+      widget.onChanged?.call(clamped);
+    }
+  }
+
+  void _snapToValue() {
+    final targetOffset = (_currentValue - widget.minValue) * _tickSpacing;
+    _scrollController.animateTo(
+      targetOffset,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final totalTicks = widget.maxValue - widget.minValue;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 标签 + 数值
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: '${widget.label} '),
+              TextSpan(
+                text: '$_currentValue',
+                style: const TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              TextSpan(text: ' ${widget.unit}'),
+            ],
+            style: const TextStyle(fontSize: 14),
+          ),
+        ),
+        const SizedBox(height: 8),
+        // 刻度尺
+        SizedBox(
+          height: 40,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final viewWidth = constraints.maxWidth;
+              final sidePadding = viewWidth / 2;
+              return Stack(
+                children: [
+                  // 滚动刻度
+                  NotificationListener<ScrollEndNotification>(
+                    onNotification: (notification) {
+                      _snapToValue();
+                      return true;
+                    },
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      physics: const ClampingScrollPhysics(),
+                      padding: EdgeInsets.symmetric(horizontal: sidePadding),
+                      itemCount: totalTicks + 1,
+                      itemBuilder: (context, index) {
+                        final value = widget.minValue + index;
+                        final isMajor = value % 5 == 0;
+                        final showLabel = value % 5 == 0;
+                        return SizedBox(
+                          width: _tickSpacing,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              if (showLabel)
+                                SizedBox(
+                                  height: 12,
+                                  child: OverflowBox(
+                                    maxWidth: 40,
+                                    child: Text(
+                                      '$value',
+                                      style: const TextStyle(
+                                        fontSize: 9,
+                                        color: Color(0xFF999999),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(height: 2),
+                              Container(
+                                width: isMajor ? 1.5 : 0.8,
+                                height: isMajor ? 18 : 10,
+                                color: isMajor
+                                    ? const Color(0xFF999999)
+                                    : const Color(0xFFCCCCCC),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  // 中心指示线
+                  Positioned(
+                    left: viewWidth / 2 - 1,
+                    bottom: 0,
+                    child: Container(
+                      width: 2.5,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _FixedNumberSelector extends StatefulWidget {
   final List<int> values;
   final int initialValue;
@@ -3744,25 +4162,25 @@ class _GridCalendarState extends State<GridCalendar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: const Color(0x63FFFFFF),
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: const Color(0xFFE4E4E4),
-                        width: 1.0,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x21918264),
-                          offset: Offset(0, 5),
-                          blurRadius: 3.7,
+                  InkWell(
+                    onTap: () => previousMonth(),
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: const Color(0x63FFFFFF),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: const Color(0xFFE4E4E4),
+                          width: 1.0,
                         ),
-                      ],
-                    ),
-                    child: InkWell(
-                      onTap: () => previousMonth,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x21918264),
+                            offset: Offset(0, 5),
+                            blurRadius: 3.7,
+                          ),
+                        ],
+                      ),
                       child: Icon(Icons.chevron_left),
                     ),
                   ),
@@ -3774,25 +4192,25 @@ class _GridCalendarState extends State<GridCalendar> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: const Color(0x63FFFFFF),
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(
-                        color: const Color(0xFFE4E4E4),
-                        width: 1.0,
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x21918264),
-                          offset: Offset(0, 5),
-                          blurRadius: 3.7,
+                  InkWell(
+                    onTap: () => nextMonth(),
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: const Color(0x63FFFFFF),
+                        borderRadius: BorderRadius.circular(30),
+                        border: Border.all(
+                          color: const Color(0xFFE4E4E4),
+                          width: 1.0,
                         ),
-                      ],
-                    ),
-                    child: InkWell(
-                      onTap: () => previousMonth,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x21918264),
+                            offset: Offset(0, 5),
+                            blurRadius: 3.7,
+                          ),
+                        ],
+                      ),
                       child: Icon(Icons.chevron_right),
                     ),
                   ),
