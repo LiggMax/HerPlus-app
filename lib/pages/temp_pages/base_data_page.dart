@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:herplus/core/utils/nav_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'heart_rate_chart_helper.dart';
 
 class BaseDataPage extends StatefulWidget {
   const BaseDataPage({super.key});
@@ -255,168 +256,72 @@ class _BaseDataPageState extends State<BaseDataPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 8),
-              child: Stack(
-                children: [
-                  // 1. 投影层：应用垂直消散效果
-                  ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.white, Colors.transparent],
-                        stops: [0.2, 1.0],
-                      ).createShader(bounds);
+              child: LineChart(
+                LineChartData(
+                  minY: 40,
+                  maxY: 160,
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    drawHorizontalLine: true,
+                    verticalInterval: 6,
+                    horizontalInterval: 40,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(
+                        color: Colors.white.withOpacity(0.1),
+                        strokeWidth: 1,
+                      );
                     },
-                    blendMode: BlendMode.dstIn,
-                    child: LineChart(
-                      LineChartData(
-                        minY: 40,
-                        maxY: 160,
-                        gridData: FlGridData(show: false),
-                        titlesData: FlTitlesData(
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 35,
-                              getTitlesWidget: (v, m) => SizedBox.shrink(),
-                            ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 30,
-                              getTitlesWidget: (v, m) => SizedBox.shrink(),
-                            ),
-                          ),
-                          rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: _generateSampleData(),
-                            isCurved: true,
-                            color: Colors.transparent,
-                            barWidth: 0,
-                            dotData: FlDotData(show: false),
-                            belowBarData: BarAreaData(
-                              show: true,
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [
-                                  Color(0xFFFF8F41).withOpacity(0.4),
-                                  Color(0xFFFF8F41).withOpacity(0.4),
-                                  Colors.white.withOpacity(0.4),
-                                  Colors.white.withOpacity(0.4),
-                                  Color(0xFFFF8F41).withOpacity(0.4),
-                                  Color(0xFFFF8F41).withOpacity(0.4),
-                                ],
-                                stops: [0.0, 0.29, 0.29, 0.75, 0.75, 1.0],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
-                  // 2. 折线与刻度层
-                  LineChart(
-                    LineChartData(
-                      minY: 40,
-                      maxY: 160,
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        drawHorizontalLine: true,
-                        verticalInterval: 6,
-                        horizontalInterval: 40,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.white.withOpacity(0.1),
-                            strokeWidth: 1,
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 35,
+                        interval: 40,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            value.toInt().toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 11),
                           );
                         },
                       ),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 35,
-                            interval: 40,
-                            getTitlesWidget: (value, meta) {
-                              return Text(
-                                value.toInt().toString(),
+                    ),
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        interval: 6,
+                        getTitlesWidget: (value, meta) {
+                          if (value % 6 == 0) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Text(
+                                '${value.toInt().toString().padLeft(2, '0')}:00',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 11,
+                                  fontSize: 10,
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            interval: 6,
-                            getTitlesWidget: (value, meta) {
-                              if (value % 6 == 0) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    '${value.toInt().toString().padLeft(2, '0')}:00',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                );
-                              }
-                              return SizedBox.shrink();
-                            },
-                          ),
-                        ),
+                              ),
+                            );
+                          }
+                          return SizedBox.shrink();
+                        },
                       ),
-                      borderData: FlBorderData(show: false),
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: _generateSampleData(),
-                          isCurved: true,
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            //MARK 线段颜色
-                            colors: [
-                              Color(0xFFFF8F41),
-                              Color(0xFFFF8F41),
-                              Colors.white,
-                              Colors.white,
-                              Color(0xFFFF8F41),
-                              Color(0xFFFF8F41),
-                            ],
-                            stops: [0.0, 0.29, 0.29, 0.75, 0.75, 1.0],
-                          ),
-                          barWidth: 2,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          belowBarData: BarAreaData(show: false),
-                        ),
-                      ],
-                      lineTouchData: LineTouchData(enabled: false),
                     ),
                   ),
-                ],
+                  borderData: FlBorderData(show: false),
+                  lineBarsData: HeartRateChartHelper.buildSegmentedLineBars(
+                    _generateSampleData(),
+                  ),
+                  lineTouchData: LineTouchData(enabled: false),
+                ),
               ),
             ),
           ),
@@ -428,19 +333,19 @@ class _BaseDataPageState extends State<BaseDataPage> {
   List<FlSpot> _generateSampleData() {
     // 生成24小时的示例心率数据
     return [
-      FlSpot(0, 65),
-      FlSpot(2, 62),
-      FlSpot(4, 58),
-      FlSpot(6, 72),
-      FlSpot(8, 88),
-      FlSpot(10, 95),
-      FlSpot(12, 98),
-      FlSpot(14, 92),
-      FlSpot(16, 85),
-      FlSpot(18, 80),
-      FlSpot(20, 75),
-      FlSpot(22, 70),
-      FlSpot(24, 65),
+      const FlSpot(0, 70),
+      // const FlSpot(2, 65),
+      const FlSpot(4, 60),
+      // const FlSpot(6, 58),
+      const FlSpot(8, 75),
+      // const FlSpot(10, 85),
+      const FlSpot(12, 90),
+      // const FlSpot(14, 95),
+      const FlSpot(16, 100),
+      // const FlSpot(18, 128),
+      const FlSpot(20, 128),
+      // const FlSpot(22, 85),
+      const FlSpot(24, 75),
     ];
   }
 
@@ -482,144 +387,89 @@ class _BaseDataPageState extends State<BaseDataPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 8),
-              child: Stack(
-                children: [
-                  // 1. 投影层
-                  ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.white, Colors.transparent],
-                        stops: [0.2, 1.0],
-                      ).createShader(bounds);
+              child: LineChart(
+                LineChartData(
+                  minY: 80,
+                  maxY: 100,
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: false,
+                    drawHorizontalLine: true,
+                    verticalInterval: 6,
+                    horizontalInterval: 10,
+                    getDrawingHorizontalLine: (value) {
+                      return FlLine(color: Colors.transparent, strokeWidth: 1);
                     },
-                    blendMode: BlendMode.dstIn,
-                    child: LineChart(
-                      LineChartData(
-                        minY: 80,
-                        maxY: 100,
-                        gridData: FlGridData(show: false),
-                        titlesData: FlTitlesData(
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 35,
-                              getTitlesWidget: (v, m) => SizedBox.shrink(),
-                            ),
-                          ),
-                          bottomTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 30,
-                              getTitlesWidget: (v, m) => SizedBox.shrink(),
-                            ),
-                          ),
-                          rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                          topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false),
-                          ),
-                        ),
-                        borderData: FlBorderData(show: false),
-                        lineBarsData: [
-                          LineChartBarData(
-                            spots: _generateOxygenData(),
-                            isCurved: true,
-                            color: Colors.transparent,
-                            barWidth: 0,
-                            dotData: FlDotData(show: false),
-                            belowBarData: BarAreaData(
-                              show: true,
-                              color: Color(0xFF978EED).withOpacity(0.4),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
-                  // 2. 线条与坐标轴层
-                  LineChart(
-                    LineChartData(
-                      minY: 80,
-                      maxY: 100,
-                      gridData: FlGridData(
-                        show: true,
-                        drawVerticalLine: false,
-                        drawHorizontalLine: true,
-                        verticalInterval: 6,
-                        horizontalInterval: 10,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                            color: Colors.transparent,
-                            strokeWidth: 1,
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 35,
+                        interval: 10,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            value.toInt().toString(),
+                            style: TextStyle(color: Colors.white, fontSize: 11),
                           );
                         },
                       ),
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 35,
-                            interval: 10,
-                            getTitlesWidget: (value, meta) {
-                              return Text(
-                                value.toInt().toString(),
+                    ),
+                    rightTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        interval: 6,
+                        getTitlesWidget: (value, meta) {
+                          if (value % 6 == 0) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: 8),
+                              child: Text(
+                                '${value.toInt().toString().padLeft(2, '0')}:00',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 11,
+                                  fontSize: 10,
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 30,
-                            interval: 6,
-                            getTitlesWidget: (value, meta) {
-                              if (value % 6 == 0) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    '${value.toInt().toString().padLeft(2, '0')}:00',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                );
-                              }
-                              return SizedBox.shrink();
-                            },
-                          ),
-                        ),
+                              ),
+                            );
+                          }
+                          return SizedBox.shrink();
+                        },
                       ),
-                      borderData: FlBorderData(show: false),
-                      lineBarsData: [
-                        //线段颜色
-                        LineChartBarData(
-                          spots: _generateOxygenData(),
-                          isCurved: true,
-                          color: Color(0xFF978EED),
-                          barWidth: 2,
-                          isStrokeCapRound: true,
-                          dotData: FlDotData(show: false),
-                          belowBarData: BarAreaData(show: false),
-                        ),
-                      ],
-                      lineTouchData: LineTouchData(enabled: false),
                     ),
                   ),
-                ],
+                  borderData: FlBorderData(show: false),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: _generateOxygenData(),
+                      isCurved: true,
+                      color: Color(0xFF978EED),
+                      barWidth: 2,
+                      isStrokeCapRound: true,
+                      dotData: FlDotData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        color: Color(0xFF978EED).withOpacity(0.4),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFF978EED).withOpacity(0.4),
+                            Color(0xFF978EED).withOpacity(0.1),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                  lineTouchData: LineTouchData(enabled: false),
+                ),
               ),
             ),
           ),
@@ -630,13 +480,19 @@ class _BaseDataPageState extends State<BaseDataPage> {
 
   List<FlSpot> _generateOxygenData() {
     return [
-      FlSpot(0, 96),
-      FlSpot(4, 95),
-      FlSpot(8, 98),
+      FlSpot(0, 97),
+      FlSpot(2, 92),
+      FlSpot(4, 98),
+      FlSpot(6, 89),
+      FlSpot(8, 95),
+      FlSpot(10, 91),
       FlSpot(12, 97),
-      FlSpot(16, 95),
+      FlSpot(14, 88),
+      FlSpot(16, 94),
+      FlSpot(18, 90),
       FlSpot(20, 96),
-      FlSpot(24, 97),
+      FlSpot(22, 93),
+      FlSpot(24, 98),
     ];
   }
 }
