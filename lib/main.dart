@@ -68,19 +68,19 @@ class MainPage extends StatelessWidget {
       return const GoalSettingsPage();
     }
     if (title == MyApp.genderCognition) {
-      return const GenderCognitionPage();
-    }
-    if (title == MyApp.trackingIntent) {
-      return const TrackingIntentPage();
-    }
-    if (title == MyApp.cycleDetails) {
       return const _CycleAndBodyDataContainer(initialPage: 0);
     }
+    if (title == MyApp.trackingIntent) {
+      return const _CycleAndBodyDataContainer(initialPage: 1,);
+    }
+    if (title == MyApp.cycleDetails) {
+      return const _CycleAndBodyDataContainer(initialPage: 2);
+    }
     if (title == MyApp.bodyData) {
-      return const _CycleAndBodyDataContainer(initialPage: 1);
+      return const _CycleAndBodyDataContainer(initialPage: 3);
     }
     if (title == MyApp.privacyCommitment) {
-      return const _CycleAndBodyDataContainer(initialPage: 2);
+      return const _CycleAndBodyDataContainer(initialPage: 4);
     }
     return const BlankPage();
   }
@@ -2769,15 +2769,26 @@ class _GenderCognitionPageState extends State<GenderCognitionPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _GenderNavBar(
-                            onBack: () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(height: 45),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: leftInset,
-                            ),
-                            child: const _GenderStepper(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(5, (index) {
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  width: 50,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: index == 0? Colors.black : Colors.white60,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                           ),
                           const SizedBox(height: 61),
                           Padding(
@@ -3419,7 +3430,7 @@ class _CycleAndBodyDataContainerState
     return  PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
-        children: const [CycleDetails(), _BodyDataPage(),PrivacyCommitmentPage()],
+        children: const [GenderCognitionPage(),CycleDetailsPage(),CycleDetails(), _BodyDataPage(),PrivacyCommitmentPage()],
     );
   }
 }
@@ -3999,6 +4010,7 @@ class PrivacyCommitmentPage extends StatelessWidget {
                             Column(
                               children: [
                                 Text('我们坚持数据透明。以下是 HerPlus 将为您守护的核心数据及用途'),
+                                const SizedBox(height: 5),
                                 Text('HerPlus 郑重承诺：采用 AES-256 银行级加密，您的数据所有权永远属于您'),
                               ],
                             ),
@@ -4923,15 +4935,26 @@ class CycleDetailsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _CycleNavBar(
-                            onBack: () => Navigator.of(context).pop(),
-                          ),
-                          const SizedBox(height: 45),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: leftInset,
-                            ),
-                            child: const _CycleStepper(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(5, (index) {
+                              return AnimatedContainer(
+                                duration: const Duration(milliseconds: 300),
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  width: 50,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: index == 1? Colors.black : Colors.white60,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                           ),
                           const SizedBox(height: 61),
                           Padding(
