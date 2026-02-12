@@ -468,7 +468,7 @@ class _ToggleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: isMultiLine ? 66 : 64,
+      height: isMultiLine ? 70 : 64,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
         border: showDivider
@@ -578,12 +578,10 @@ class _FileCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(width: 32, height: 32, child: Image.asset(iconAsset)),
-          const SizedBox(height: 12),
           Text(
             title,
             style: const TextStyle(
-              fontSize: 14,
-              height: 1.17,
+              fontSize: 10,
               fontWeight: FontWeight.w500,
               color: Color(0xFF333333),
             ),
@@ -624,8 +622,7 @@ class _FileActionButton extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          fontSize: 12,
-          height: 1.17,
+          fontSize: 10,
           fontWeight: FontWeight.w500,
           color: Colors.white,
         ),
@@ -1081,7 +1078,7 @@ class _FirmwareProgressCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      height: 65,
+      height: 70,
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       decoration: BoxDecoration(
         color: const Color(0x63FFFFFF),
@@ -2049,16 +2046,6 @@ class _AiBannerLarge extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '',
-                    style: TextStyle(
-                      fontSize: 15,
-                      height: 1.17,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(height: 4),
                   Text(
                     '00:15',
                     style: TextStyle(
