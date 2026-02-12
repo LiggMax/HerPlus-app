@@ -11,37 +11,38 @@ on:
           - ios
 
 jobs:
-  build-ios:
-    name: Build iOS
-    runs-on: macos-latest
-    if: ${{ github.event.inputs.platform == 'ios'}}
-    
+  flutter-build_ios:
+    if: ${{github.event.inputs.platform == 'ios'}}
+    runs-on: macos-14
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Flutter
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version-file: pubspec.yaml
-          cache: true
+          channel: stable
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Install CocoaPods dependencies
+      - name: Show available simulators
         run: |
-          cd ios
-          pod install
-        continue-on-error: true
+          xcrun simctl list devices
+          xcodebuild -showsdks
 
-      - name: Build iOS IPA
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Create IPA
         run: |
-          flutter build ipa --release
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
+          zip -q -r "AnimeFlow-ios.ipa" Payload
 
-      - name: Upload IPA
+      - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-ipa
-          path: build/ios/ipa/*.ipa
-          retention-days: 30
+          name: ios
+          path: AnimeFlow-ios.ipa
