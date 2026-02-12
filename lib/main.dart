@@ -3375,9 +3375,6 @@ class CycleDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topInset = MediaQuery.of(context).padding.top;
-    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -3432,6 +3429,7 @@ class CycleDetails extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: leftInset),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 30),
                             Text(
@@ -3451,28 +3449,9 @@ class CycleDetails extends StatelessWidget {
                               children: [
                                 Text('通常，你的经期会持续几天'),
                                 const SizedBox(height: 8),
-                                Container(
-                                  constraints: const BoxConstraints(
-                                    minHeight: 40,
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(
-                                    14,
-                                    8,
-                                    14,
-                                    8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0x63FFFFFF),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x21918264),
-                                        offset: Offset(0, 5),
-                                        blurRadius: 3.7,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(),
+                                _FixedNumberSelector(
+                                  values: const [3, 4, 5, 6, 7],
+                                  initialValue: 5,
                                 ),
                               ],
                             ),
@@ -3482,60 +3461,19 @@ class CycleDetails extends StatelessWidget {
                               children: [
                                 Text('两次的访问之间，通常间隔几天？'),
                                 const SizedBox(height: 8),
-                                Container(
-                                  constraints: const BoxConstraints(
-                                    minHeight: 40,
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(
-                                    14,
-                                    8,
-                                    14,
-                                    8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0x63FFFFFF),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x21918264),
-                                        offset: Offset(0, 5),
-                                        blurRadius: 3.7,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(),
+                                _FixedNumberSelector(
+                                  values: const [15, 16, 17, 18, 19],
+                                  initialValue: 17,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 10),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('上一次经期是什么时候开始的'),
                                 const SizedBox(height: 8),
-                                Container(
-                                  constraints: const BoxConstraints(
-                                    minHeight: 200,
-                                  ),
-                                  padding: const EdgeInsets.fromLTRB(
-                                    14,
-                                    8,
-                                    14,
-                                    8,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0x63FFFFFF),
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x21918264),
-                                        offset: Offset(0, 5),
-                                        blurRadius: 3.7,
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(),
-                                ),
+                                GridCalendar(),
                               ],
                             ),
                             const SizedBox(height: 15),
@@ -3583,6 +3521,336 @@ class CycleDetails extends StatelessWidget {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _FixedNumberSelector extends StatefulWidget {
+  final List<int> values;
+  final int initialValue;
+  final ValueChanged<int>? onChanged;
+
+  const _FixedNumberSelector({
+    required this.values,
+    required this.initialValue,
+    this.onChanged,
+  });
+
+  @override
+  State<_FixedNumberSelector> createState() => _FixedNumberSelectorState();
+}
+
+class _FixedNumberSelectorState extends State<_FixedNumberSelector> {
+  late int _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIndex = widget.values.indexOf(_selectedValue);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final totalWidth = constraints.maxWidth;
+        final itemWidth = totalWidth / widget.values.length;
+        const double bgHeight = 38;
+        const double indicatorHeight = 50;
+        const double indicatorWidth = 50;
+        const double totalHeight = indicatorHeight;
+        const double bgTopOffset = (totalHeight - bgHeight) / 2;
+        return SizedBox(
+          height: totalHeight,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                top: bgTopOffset,
+                left: 0,
+                right: 0,
+                height: bgHeight,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0x63FFFFFF),
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: const Color(0xFFE4E4E4),
+                      width: 1.0,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x21918264),
+                        offset: Offset(0, 5),
+                        blurRadius: 3.7,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: bgTopOffset,
+                left: 0,
+                right: 0,
+                height: bgHeight,
+                child: Row(
+                  children: widget.values.map((value) {
+                    return Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() => _selectedValue = value);
+                          widget.onChanged?.call(value);
+                        },
+                        child: Center(
+                          child: Text(
+                            '$value',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF888888),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              // 上层：选中指示器（上下溢出背景容器）
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                left:
+                    selectedIndex * itemWidth +
+                    (itemWidth - indicatorWidth) / 2,
+                top: 0,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: indicatorWidth,
+                    height: indicatorHeight,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white70.withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white, width: 1.0),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x21918264),
+                          offset: Offset(0, 5),
+                          blurRadius: 3.7,
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      '$_selectedValue',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class GridCalendar extends StatefulWidget {
+  const GridCalendar({super.key});
+
+  @override
+  State<GridCalendar> createState() => _GridCalendarState();
+}
+
+class _GridCalendarState extends State<GridCalendar> {
+  DateTime currentMonth = DateTime.now();
+  DateTime? selectedDay;
+
+  /// 获取当月第一天
+  DateTime get firstDayOfMonth =>
+      DateTime(currentMonth.year, currentMonth.month, 1);
+
+  int get daysInMonth =>
+      DateTime(currentMonth.year, currentMonth.month + 1, 0).day;
+
+  /// 当月1号是星期几 (1=周一 7=周日)
+  int get startWeekday => firstDayOfMonth.weekday;
+
+  /// 生成日历数据（包含前面补空）
+  List<DateTime?> get calendarDays {
+    final List<DateTime?> list = [];
+
+    // 前面补空位
+    for (int i = 1; i < startWeekday; i++) {
+      list.add(null);
+    }
+
+    // 本月日期
+    for (int i = 1; i <= daysInMonth; i++) {
+      list.add(DateTime(currentMonth.year, currentMonth.month, i));
+    }
+
+    return list;
+  }
+
+  void previousMonth() {
+    setState(() {
+      currentMonth = DateTime(currentMonth.year, currentMonth.month - 1);
+    });
+  }
+
+  void nextMonth() {
+    setState(() {
+      currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+    });
+  }
+
+  bool isSameDay(DateTime? a, DateTime? b) {
+    if (a == null || b == null) return false;
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: const Color(0x63FFFFFF),
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: const Color(0xFFE4E4E4), width: 1.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x21918264),
+              offset: Offset(0, 5),
+              blurRadius: 3.7,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: const Color(0x63FFFFFF),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: const Color(0xFFE4E4E4),
+                        width: 1.0,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x21918264),
+                          offset: Offset(0, 5),
+                          blurRadius: 3.7,
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () => previousMonth,
+                      child: Icon(Icons.chevron_left),
+                    ),
+                  ),
+                  Text(
+                    "${currentMonth.month}月",
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: const Color(0x63FFFFFF),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: const Color(0xFFE4E4E4),
+                        width: 1.0,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x21918264),
+                          offset: Offset(0, 5),
+                          blurRadius: 3.7,
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () => previousMonth,
+                      child: Icon(Icons.chevron_right),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: calendarDays.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 7,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) {
+                final day = calendarDays[index];
+
+                if (day == null) return const SizedBox();
+
+                final selected = isSameDay(day, selectedDay);
+
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedDay = day;
+                    });
+                  },
+                  child: Center(
+                    child: Container(
+                      padding: selected
+                          ? const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 3,
+                            )
+                          : null,
+                      decoration: selected
+                          ? BoxDecoration(
+                              color: const Color(
+                                0xFFE9A19A,
+                              ).withValues(alpha: 0.8),
+                              borderRadius: BorderRadius.circular(20),
+                            )
+                          : null,
+                      child: selected
+                          ? Icon(Icons.star, size: 18, color: Colors.amber)
+                          : Text(
+                              "${day.day}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black87,
+                              ),
+                            ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
