@@ -155,7 +155,6 @@ class DeviceManagerPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          // 设备图片展示区 — 圆柱台座
                           SizedBox(
                             width: 320,
                             height: 240,
@@ -163,10 +162,10 @@ class DeviceManagerPage extends StatelessWidget {
                               alignment: Alignment.topCenter,
                               children: [
                                 Positioned(
-                                  top: 110,
+                                  top: 120,
                                   child: Image.asset(
                                     height: 200,
-                                    width: 200,
+                                    width: 300,
                                     "assets/images/cycle_details/group.png",
                                     fit: BoxFit.contain,
                                   ),
@@ -175,8 +174,8 @@ class DeviceManagerPage extends StatelessWidget {
                                 Positioned(
                                   top: 0,
                                   child: SizedBox(
-                                    height: 170,
-                                    width: 170,
+                                    height: 160,
+                                    width: 160,
                                     child: Image.asset(
                                       "assets/images/firmware_upgrade/fw_device.png",
                                       fit: BoxFit.contain,
