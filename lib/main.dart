@@ -72,10 +72,10 @@ class MainPage extends StatelessWidget {
       return const TrackingIntentPage();
     }
     if (title == MyApp.cycleDetails) {
-      return const CycleDetails();
+      return const _CycleAndBodyDataContainer(initialPage: 0);
     }
     if (title == MyApp.bodyData) {
-      return const _BodyDataPage();
+      return const _CycleAndBodyDataContainer(initialPage: 1);
     }
     return const BlankPage();
   }
@@ -3374,6 +3374,51 @@ class _TrackingOptionButton extends StatelessWidget {
   }
 }
 
+class _CycleAndBodyDataContainer extends StatefulWidget {
+  final int initialPage;
+
+  const _CycleAndBodyDataContainer({this.initialPage = 0});
+
+  @override
+  State<_CycleAndBodyDataContainer> createState() =>
+      _CycleAndBodyDataContainerState();
+}
+
+class _CycleAndBodyDataContainerState
+    extends State<_CycleAndBodyDataContainer> {
+  late final PageController _pageController;
+  late int _currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPage = widget.initialPage;
+    _pageController = PageController(initialPage: widget.initialPage);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return  PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: const [CycleDetails(), _BodyDataPage()],
+    );
+  }
+}
+
 class CycleDetails extends StatelessWidget {
   const CycleDetails({super.key});
 
@@ -3435,6 +3480,27 @@ class CycleDetails extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(5, (index) {
+                                return AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    width: 50,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: index == 1? Colors.black : Colors.white60,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
                             const SizedBox(height: 30),
                             Text(
                               '建立您的专属周期模型',
@@ -3592,6 +3658,27 @@ class _BodyDataPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(5, (index) {
+                                return AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    width: 50,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: index == 2? Colors.black : Colors.white60,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 1,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
                             const SizedBox(height: 30),
                             Text(
                               '建立您的能量基石',
@@ -3730,36 +3817,58 @@ class _BodyDataPage extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 20),
+                            _RulerPicker(
+                              label: '身高',
+                              unit: 'cm',
+                              minValue: 100,
+                              maxValue: 220,
+                              initialValue: 165,
+                            ),
+                            const SizedBox(height: 10),
+                            _RulerPicker(
+                              label: '体重',
+                              unit: 'kg',
+                              minValue: 40,
+                              maxValue: 200,
+                              initialValue: 65,
+                            ),
+                            Spacer(),
                             Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5,
-                              ),
+                              height: 50,
+                              width: 350,
                               alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
                               decoration: BoxDecoration(
-                                color: const Color(0x63FFFFFF),
-                                borderRadius: BorderRadius.circular(18),
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xCC000000),
+                                    const Color(0xCC373F34),
+                                  ],
+                                ),
                                 border: Border.all(
-                                  color: const Color(0xFFE4E4E4),
-                                  width: 1.0,
+                                  color: Colors.white,
+                                  width: 1,
                                 ),
                                 boxShadow: const [
                                   BoxShadow(
-                                    color: Color(0x21918264),
-                                    offset: Offset(0, 5),
-                                    blurRadius: 3.7,
+                                    color: Color(0x40000000),
+                                    blurRadius: 18.1,
+                                    offset: Offset(0, 0),
                                   ),
                                 ],
                               ),
-                              child: _RulerPicker(
-                                label: '身高',
-                                unit: 'cm',
-                                minValue: 100,
-                                maxValue: 220,
-                                initialValue: 165,
+                              child: Text(
+                                '下一步',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 20),
                           ],
                         ),
                       ),
@@ -3843,104 +3952,113 @@ class _RulerPickerState extends State<_RulerPicker> {
   Widget build(BuildContext context) {
     final totalTicks = widget.maxValue - widget.minValue;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // 标签 + 数值
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(text: '${widget.label} '),
-              TextSpan(
-                text: '$_currentValue',
-                style: const TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w600,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: const Color(0x63FFFFFF),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFE4E4E4), width: 1.0),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x21918264),
+            offset: Offset(0, 5),
+            blurRadius: 3.7,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // 标签 + 数值
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: '${widget.label} '),
+                TextSpan(
+                  text: '$_currentValue',
+                  style: const TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              TextSpan(text: ' ${widget.unit}'),
-            ],
-            style: const TextStyle(fontSize: 14),
+                TextSpan(text: ' ${widget.unit}'),
+              ],
+              style: const TextStyle(fontSize: 14),
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        // 刻度尺
-        SizedBox(
-          height: 40,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final viewWidth = constraints.maxWidth;
-              final sidePadding = viewWidth / 2;
-              return Stack(
-                children: [
-                  // 滚动刻度
-                  NotificationListener<ScrollEndNotification>(
-                    onNotification: (notification) {
-                      _snapToValue();
-                      return true;
-                    },
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      physics: const ClampingScrollPhysics(),
-                      padding: EdgeInsets.symmetric(horizontal: sidePadding),
-                      itemCount: totalTicks + 1,
-                      itemBuilder: (context, index) {
-                        final value = widget.minValue + index;
-                        final isMajor = value % 5 == 0;
-                        final showLabel = value % 5 == 0;
-                        return SizedBox(
-                          width: _tickSpacing,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              if (showLabel)
-                                SizedBox(
-                                  height: 12,
-                                  child: OverflowBox(
-                                    maxWidth: 40,
-                                    child: Text(
-                                      '$value',
-                                      style: const TextStyle(
-                                        fontSize: 9,
-                                        color: Color(0xFF999999),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              const SizedBox(height: 2),
-                              Container(
-                                width: isMajor ? 1.5 : 0.8,
-                                height: isMajor ? 18 : 10,
-                                color: isMajor
-                                    ? const Color(0xFF999999)
-                                    : const Color(0xFFCCCCCC),
+          // 刻度尺
+          SizedBox(
+            height: 100,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final viewWidth = constraints.maxWidth;
+                final sidePadding = viewWidth / 2;
+                return NotificationListener<ScrollEndNotification>(
+                  onNotification: (notification) {
+                    _snapToValue();
+                    return true;
+                  },
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    physics: const ClampingScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: sidePadding),
+                    itemCount: totalTicks + 1,
+                    itemBuilder: (context, index) {
+                      final value = widget.minValue + index;
+                      final isMajor = value % 5 == 0;
+                      final showLabel = value % 5 == 0;
+                      final isCenter = value == _currentValue;
+                      return SizedBox(
+                        width: _tickSpacing,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: isCenter ? 2.5 : (isMajor ? 2 : 1),
+                              height: isCenter ? 40 : (isMajor ? 30 : 22),
+                              decoration: BoxDecoration(
+                                color: isCenter
+                                    ? Colors.deepPurple
+                                    : Colors.black26,
+                                borderRadius: isCenter
+                                    ? BorderRadius.circular(2)
+                                    : null,
                               ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+                            ),
+                            SizedBox(
+                              height: 15,
+                              child: showLabel
+                                  ? SizedBox(
+                                      height: 12,
+                                      child: OverflowBox(
+                                        maxWidth: 40,
+                                        child: Text(
+                                          '$value',
+                                          style: TextStyle(
+                                            fontSize: 9,
+                                            color: const Color(0xFF999999),
+                                            fontWeight: isCenter
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  // 中心指示线
-                  Positioned(
-                    left: viewWidth / 2 - 1,
-                    bottom: 0,
-                    child: Container(
-                      width: 2.5,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
