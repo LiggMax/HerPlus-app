@@ -3426,146 +3426,156 @@ class CycleDetails extends StatelessWidget {
                   ),
                 ),
                 SafeArea(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 300),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: leftInset),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 30),
-                          Text(
-                            '建立您的专属周期模型',
-                            style: TextStyle(
-                              fontSize: 28,
-                              height: 1.5,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF333333),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 400),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: leftInset),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 30),
+                            Text(
+                              '建立您的专属周期模型',
+                              style: TextStyle(
+                                fontSize: 28,
+                                height: 1.5,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF333333),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 25),
-                          Text('HerPlus 将根据您的历史数据，为您预测下一次能量的高峰与低谷'),
-                          const SizedBox(height: 30),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('通常，你的经期会持续几天'),
-                              const SizedBox(height: 8),
-                              Container(
-                                constraints: const BoxConstraints(
-                                  minHeight: 40,
-                                ),
-                                padding: const EdgeInsets.fromLTRB(
-                                  14,
-                                  8,
-                                  14,
-                                  8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0x63FFFFFF),
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x21918264),
-                                      offset: Offset(0, 5),
-                                      blurRadius: 3.7,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('两次的访问之间，通常间隔几天？'),
-                              const SizedBox(height: 8),
-                              Container(
-                                constraints: const BoxConstraints(
-                                  minHeight: 40,
-                                ),
-                                padding: const EdgeInsets.fromLTRB(
-                                  14,
-                                  8,
-                                  14,
-                                  8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0x63FFFFFF),
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x21918264),
-                                      offset: Offset(0, 5),
-                                      blurRadius: 3.7,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('上一次经期是什么时候开始的'),
-                              const SizedBox(height: 8),
-                              Container(
-                                constraints: const BoxConstraints(
-                                  minHeight: 200,
-                                ),
-                                padding: const EdgeInsets.fromLTRB(
-                                  14,
-                                  8,
-                                  14,
-                                  8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0x63FFFFFF),
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x21918264),
-                                      offset: Offset(0, 5),
-                                      blurRadius: 3.7,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          Container(
-                            height: 50,
-                            width: 350,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              gradient: LinearGradient(
-                                colors: [
-                                  const Color(0xCC000000),
-                                  const Color(0xCC373F34),
-                                ],
-                              ),
-                              border: Border.all(color: Colors.white, width: 1),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x40000000),
-                                  blurRadius: 18.1,
-                                  offset: Offset(0, 0),
+                            const SizedBox(height: 25),
+                            Text('HerPlus 将根据您的历史数据，为您预测下一次能量的高峰与低谷'),
+                            const SizedBox(height: 30),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('通常，你的经期会持续几天'),
+                                const SizedBox(height: 8),
+                                Container(
+                                  constraints: const BoxConstraints(
+                                    minHeight: 40,
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    14,
+                                    8,
+                                    14,
+                                    8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x63FFFFFF),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x21918264),
+                                        offset: Offset(0, 5),
+                                        blurRadius: 3.7,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(),
                                 ),
                               ],
                             ),
-                            child: Text(
-                              '下一步',
-                              style: const TextStyle(color: Colors.white,fontSize: 18),
+                            const SizedBox(height: 20),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('两次的访问之间，通常间隔几天？'),
+                                const SizedBox(height: 8),
+                                Container(
+                                  constraints: const BoxConstraints(
+                                    minHeight: 40,
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    14,
+                                    8,
+                                    14,
+                                    8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x63FFFFFF),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x21918264),
+                                        offset: Offset(0, 5),
+                                        blurRadius: 3.7,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('上一次经期是什么时候开始的'),
+                                const SizedBox(height: 8),
+                                Container(
+                                  constraints: const BoxConstraints(
+                                    minHeight: 200,
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    14,
+                                    8,
+                                    14,
+                                    8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0x63FFFFFF),
+                                    borderRadius: BorderRadius.circular(16),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x21918264),
+                                        offset: Offset(0, 5),
+                                        blurRadius: 3.7,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            Container(
+                              height: 50,
+                              width: 350,
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xCC000000),
+                                    const Color(0xCC373F34),
+                                  ],
+                                ),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1,
+                                ),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x40000000),
+                                    blurRadius: 18.1,
+                                    offset: Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                '下一步',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
