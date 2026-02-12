@@ -13,11 +13,10 @@ class BreathingExercisesPage extends StatefulWidget {
 
 class _BreathingExercisesPageState extends State<BreathingExercisesPage>
     with SingleTickerProviderStateMixin {
-  // ── 呼吸配置 ──
   static const int _inhaleSeconds = 4;
   static const int _exhaleSeconds = 4;
   static const int _totalCycles = 10;
-  static const int _totalSeconds = 150; // 2:30
+  static const int _totalSeconds = 150;
 
   late AnimationController _breathController;
   late Animation<double> _scaleAnimation;
@@ -30,7 +29,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
   Timer? _totalTimer;
   Timer? _phaseTimer;
 
-  // ── 生命周期 ──
   @override
   void initState() {
     super.initState();
@@ -59,7 +57,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
     super.dispose();
   }
 
-  // ── 呼吸控制逻辑 ──
   void _startExercise() {
     _isRunning = true;
     _isInhaling = true;
@@ -85,7 +82,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
     if (!_isRunning || !mounted) return;
 
     if (status == AnimationStatus.completed) {
-      // 吸气结束 → 呼气
       HapticFeedback.lightImpact();
       setState(() {
         _isInhaling = false;
@@ -94,7 +90,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
       _startPhaseCountdown();
       _breathController.reverse();
     } else if (status == AnimationStatus.dismissed) {
-      // 呼气结束 → 下一个周期
       HapticFeedback.lightImpact();
       setState(() {
         _completedCycles++;
@@ -190,7 +185,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
                 ),
               ),
             ),
-            // ── 内容 ──
             SafeArea(
               child: Center(
                 child: ConstrainedBox(
@@ -252,7 +246,7 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
               ),
             ),
           ),
-          const SizedBox(width: 48), // 占位保持标题居中
+          const SizedBox(width: 48),
         ],
       ),
     );
@@ -315,9 +309,9 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
                       center: Alignment(0.0, -0.15),
                       radius: 0.85,
                       colors: [
-                        Color(0xFFF7DFA0), // 亮金
-                        Color(0xFFEDC25E), // 中金
-                        Color(0xFFD9A73D), // 深金
+                        Color(0xFFF7DFA0),
+                        Color(0xFFEDC25E),
+                        Color(0xFFD9A73D),
                       ],
                       stops: [0.0, 0.55, 1.0],
                     ),
@@ -361,7 +355,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
     );
   }
 
-  // ── 计时 & 提示文字 ──
   Widget _buildTimerSection() {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -393,7 +386,6 @@ class _BreathingExercisesPageState extends State<BreathingExercisesPage>
     );
   }
 
-  // ── 进度圆点 ──
   Widget _buildProgressDots() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

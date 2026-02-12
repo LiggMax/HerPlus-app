@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:herplus_app/system_settings.dart';
 
 import 'breathing_exercises.dart';
+import 'device_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
   static const String privacyCommitment = '隐私承诺';
   static const String breathingExercisesPage = '呼吸练习';
   static const String systemSettingsPage = '系统设置';
+  static const String deviceManager = '设备管家';
 
   static const List<String> pageTitles = [
     dataPrivacy,
@@ -42,8 +44,7 @@ class MyApp extends StatelessWidget {
     '查找设备',
     breathingExercisesPage,
     systemSettingsPage,
-    '设备管家',
-    '项目详情',
+    deviceManager,
     '专家详情页',
   ];
 
@@ -92,6 +93,9 @@ class MainPage extends StatelessWidget {
     }
     if (title == MyApp.systemSettingsPage) {
       return const SystemSettingsPage();
+    }
+    if (title == MyApp.deviceManager) {
+      return const DeviceManagerPage();
     }
     return const BlankPage();
   }
