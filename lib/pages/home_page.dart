@@ -5,6 +5,7 @@ import 'package:herplus/pages/community/community_page.dart';
 import 'package:herplus/pages/index/index_page.dart';
 import 'package:herplus/pages/mine/mine_page.dart';
 import 'package:herplus/pages/temp_pages/base_data_page.dart';
+import 'package:herplus/pages/temp_pages/stress_page.dart';
 
 import 'new/new_page.dart';
 
@@ -143,12 +144,17 @@ class _HomePageState extends State<HomePage> {
               child: Center(child: Text("跳转页面 1")),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 8),
-            color: Colors.white,
-            height: 40,
-            width: 40,
-            child: Center(child: Text("跳转页面 1")),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(StressPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
           ),
           Container(
             margin: EdgeInsets.only(bottom: 8),

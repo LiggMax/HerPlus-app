@@ -44,25 +44,31 @@ class _BaseDataPageState extends State<BaseDataPage> {
 
   buildContent(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
 
-          children: [
-            Row(
-              children: [
-                Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
-                SizedBox(width: 16),
-                buildTabs(context),
-              ],
-            ),
-            SizedBox(height: 15),
-            buildPannelGrids(),
-            SizedBox(height: 15),
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
+                  SizedBox(width: 16),
+                  buildTabs(context),
+                ],
+              ),
+              SizedBox(height: 15),
+              buildPannelGrids(),
+              SizedBox(height: 15),
 
-            buildLineChartCard(),
-          ],
+              buildHeartRateLineChartCard(),
+              SizedBox(height: 15),
+
+              buildNightLineChartCard(),
+            ],
+          ),
         ),
       ),
     );
@@ -193,7 +199,7 @@ class _BaseDataPageState extends State<BaseDataPage> {
   }
 
   //MARK心率趋势图卡片
-  buildLineChartCard() {
+  buildHeartRateLineChartCard() {
     return Container(
       height: 222,
       width: double.infinity,
@@ -390,6 +396,7 @@ class _BaseDataPageState extends State<BaseDataPage> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
+                            //MARK 线段颜色
                             colors: [
                               Color(0xFFFF8F41),
                               Color(0xFFFF8F41),
@@ -434,6 +441,202 @@ class _BaseDataPageState extends State<BaseDataPage> {
       FlSpot(20, 75),
       FlSpot(22, 70),
       FlSpot(24, 65),
+    ];
+  }
+
+  buildNightLineChartCard() {
+    return Container(
+      height: 222,
+      width: double.infinity,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF3A2A2A), Color(0xFF2F3E2A)],
+        ),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset('assets/icons/night.png', width: 16, height: 16),
+                  SizedBox(width: 8),
+                  Text(
+                    "夜间血氧",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Stack(
+                children: [
+                  // 1. 投影层
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.white, Colors.transparent],
+                        stops: [0.2, 1.0],
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: LineChart(
+                      LineChartData(
+                        minY: 80,
+                        maxY: 100,
+                        gridData: FlGridData(show: false),
+                        titlesData: FlTitlesData(
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 35,
+                              getTitlesWidget: (v, m) => SizedBox.shrink(),
+                            ),
+                          ),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 30,
+                              getTitlesWidget: (v, m) => SizedBox.shrink(),
+                            ),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                        ),
+                        borderData: FlBorderData(show: false),
+                        lineBarsData: [
+                          LineChartBarData(
+                            spots: _generateOxygenData(),
+                            isCurved: true,
+                            color: Colors.transparent,
+                            barWidth: 0,
+                            dotData: FlDotData(show: false),
+                            belowBarData: BarAreaData(
+                              show: true,
+                              color: Color(0xFF978EED).withOpacity(0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  // 2. 线条与坐标轴层
+                  LineChart(
+                    LineChartData(
+                      minY: 80,
+                      maxY: 100,
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: false,
+                        drawHorizontalLine: true,
+                        verticalInterval: 6,
+                        horizontalInterval: 10,
+                        getDrawingHorizontalLine: (value) {
+                          return FlLine(
+                            color: Colors.transparent,
+                            strokeWidth: 1,
+                          );
+                        },
+                      ),
+                      titlesData: FlTitlesData(
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 35,
+                            interval: 10,
+                            getTitlesWidget: (value, meta) {
+                              return Text(
+                                value.toInt().toString(),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            reservedSize: 30,
+                            interval: 6,
+                            getTitlesWidget: (value, meta) {
+                              if (value % 6 == 0) {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 8),
+                                  child: Text(
+                                    '${value.toInt().toString().padLeft(2, '0')}:00',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                );
+                              }
+                              return SizedBox.shrink();
+                            },
+                          ),
+                        ),
+                      ),
+                      borderData: FlBorderData(show: false),
+                      lineBarsData: [
+                        //线段颜色
+                        LineChartBarData(
+                          spots: _generateOxygenData(),
+                          isCurved: true,
+                          color: Color(0xFF978EED),
+                          barWidth: 2,
+                          isStrokeCapRound: true,
+                          dotData: FlDotData(show: false),
+                          belowBarData: BarAreaData(show: false),
+                        ),
+                      ],
+                      lineTouchData: LineTouchData(enabled: false),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<FlSpot> _generateOxygenData() {
+    return [
+      FlSpot(0, 96),
+      FlSpot(4, 95),
+      FlSpot(8, 98),
+      FlSpot(12, 97),
+      FlSpot(16, 95),
+      FlSpot(20, 96),
+      FlSpot(24, 97),
     ];
   }
 }
