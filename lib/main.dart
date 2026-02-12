@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
   static const String aiChat = 'AI聊天';
   static const String goalSettings = '目标设置';
   static const String genderCognition = '性别认知';
-  static const String ui = 'ui';
   static const String trackingIntent = '追踪意愿';
   static const String cycleDetails = '周期详情';
 
@@ -71,11 +70,8 @@ class MainPage extends StatelessWidget {
     if (title == MyApp.trackingIntent) {
       return const TrackingIntentPage();
     }
-    if (title == MyApp.ui) {
-      return const UiPage();
-    }
     if (title == MyApp.cycleDetails) {
-      return const CycleDetailsPage();
+      return const CycleDetails();
     }
     return const BlankPage();
   }
@@ -144,7 +140,6 @@ class UiPage extends StatelessWidget {
   }
 }
 
-
 class DataPrivacyPage extends StatefulWidget {
   const DataPrivacyPage({super.key});
 
@@ -181,8 +176,7 @@ class _DataPrivacyPageState extends State<DataPrivacyPage> {
         body: LayoutBuilder(
           builder: (context, constraints) {
             final screenWidth = constraints.maxWidth;
-            final contentWidth =
-                screenWidth < 375 ? screenWidth : 375.0;
+            final contentWidth = screenWidth < 375 ? screenWidth : 375.0;
 
             return Stack(
               fit: StackFit.expand,
@@ -355,8 +349,7 @@ class _DataPrivacyPageState extends State<DataPrivacyPage> {
           ),
           _ToggleRow(
             iconAsset: 'assets/images/data_privacy/dp_icon_sleep.png',
-            text:
-                ' REM  REM  REM  REM ',
+            text: ' REM  REM  REM  REM ',
             value: thirdToggle,
             showDivider: false,
             onTap: () => setState(() => thirdToggle = !thirdToggle),
@@ -414,11 +407,7 @@ class _DataPrivacyPageState extends State<DataPrivacyPage> {
       color: cardFill,
       borderRadius: BorderRadius.circular(16),
       boxShadow: const [
-        BoxShadow(
-          color: shadowColor,
-          offset: Offset(0, 5),
-          blurRadius: 3.7,
-        ),
+        BoxShadow(color: shadowColor, offset: Offset(0, 5), blurRadius: 3.7),
       ],
     );
   }
@@ -448,16 +437,14 @@ class _ToggleRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
         border: showDivider
-            ? const Border(bottom: BorderSide(color: Color(0x0D000000), width: 1))
+            ? const Border(
+                bottom: BorderSide(color: Color(0x0D000000), width: 1),
+              )
             : null,
       ),
       child: Row(
         children: [
-          SizedBox(
-            width: 40,
-            height: 40,
-            child: Image.asset(iconAsset),
-          ),
+          SizedBox(width: 40, height: 40, child: Image.asset(iconAsset)),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -570,17 +557,11 @@ class _FileCard extends StatelessWidget {
           const Row(
             children: [
               Expanded(
-                child: _FileActionButton(
-                  label: '',
-                  color: Color(0x33000000),
-                ),
+                child: _FileActionButton(label: '', color: Color(0x33000000)),
               ),
               SizedBox(width: 8),
               Expanded(
-                child: _FileActionButton(
-                  label: '',
-                  color: Color(0x33004DFF),
-                ),
+                child: _FileActionButton(label: '', color: Color(0x33004DFF)),
               ),
             ],
           ),
@@ -694,8 +675,7 @@ class FirmwareUpgradePage extends StatelessWidget {
         body: LayoutBuilder(
           builder: (context, constraints) {
             final screenWidth = constraints.maxWidth;
-            final contentWidth =
-                screenWidth < 375 ? screenWidth : 375.0;
+            final contentWidth = screenWidth < 375 ? screenWidth : 375.0;
 
             return Stack(
               fit: StackFit.expand,
@@ -878,11 +858,7 @@ class _FirmwareHero extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(
-            left: 89,
-            top: 91,
-            child: _FirmwarePedestal(),
-          ),
+          const Positioned(left: 89, top: 91, child: _FirmwarePedestal()),
           Positioned(
             left: 136,
             top: 0,
@@ -1042,7 +1018,12 @@ class _BubbleClipper extends CustomClipper<Path> {
     path.lineTo(size.width - radius, 0);
     path.quadraticBezierTo(size.width, 0, size.width, radius);
     path.lineTo(size.width, size.height - 8);
-    path.quadraticBezierTo(size.width, size.height, size.width - radius, size.height);
+    path.quadraticBezierTo(
+      size.width,
+      size.height,
+      size.width - radius,
+      size.height,
+    );
     path.lineTo(size.width / 2 + 5, size.height);
     path.lineTo(size.width / 2, size.height + 4);
     path.lineTo(size.width / 2 - 5, size.height);
@@ -1189,15 +1170,9 @@ class _FirmwareVersionCard extends StatelessWidget {
       ),
       child: Column(
         children: const [
-          _FirmwareVersionRow(
-            label: '',
-            value: 'v2.24',
-          ),
+          _FirmwareVersionRow(label: '', value: 'v2.24'),
           Divider(height: 1, thickness: 1, color: Color(0x0D000000)),
-          _FirmwareVersionRow(
-            label: '',
-            value: 'v3.12',
-          ),
+          _FirmwareVersionRow(label: '', value: 'v3.12'),
         ],
       ),
     );
@@ -1268,7 +1243,9 @@ class _FirmwareUpdateCard extends StatelessWidget {
                   height: 51,
                   decoration: const BoxDecoration(
                     color: Color(0xFF84FFED),
-                    borderRadius: BorderRadius.all(Radius.elliptical(121.5, 25.5)),
+                    borderRadius: BorderRadius.all(
+                      Radius.elliptical(121.5, 25.5),
+                    ),
                   ),
                 ),
               ),
@@ -1836,57 +1813,26 @@ class _AiMessagesArea extends StatelessWidget {
           Positioned(
             left: 0,
             top: 12,
-            child: _AiMsgLeft(
-              text:
-                  '',
-              width: 279,
-              height: 56,
-            ),
+            child: _AiMsgLeft(text: '', width: 279, height: 56),
           ),
           Positioned(
             right: 0,
             top: 80,
-            child: _AiMsgRight(
-              text: '',
-              width: 218,
-              height: 40,
-            ),
+            child: _AiMsgRight(text: '', width: 218, height: 40),
           ),
           Positioned(
             left: 0,
             top: 132,
-            child: _AiMsgLeft(
-              text: '',
-              width: 245,
-              height: 40,
-            ),
+            child: _AiMsgLeft(text: '', width: 245, height: 40),
           ),
           Positioned(
             right: 0,
             top: 184,
-            child: _AiMsgRight(
-              text: '',
-              width: 176,
-              height: 40,
-            ),
+            child: _AiMsgRight(text: '', width: 176, height: 40),
           ),
-          Positioned(
-            left: 0,
-            top: 129,
-            right: 0,
-            child: _AiContentHeader(),
-          ),
-          Positioned(
-            left: 0,
-            top: 160,
-            child: _AiBannerLarge(),
-          ),
-          Positioned(
-            left: 0,
-            top: 365,
-            width: 343,
-            child: _AiBannerRowOne(),
-          ),
+          Positioned(left: 0, top: 129, right: 0, child: _AiContentHeader()),
+          Positioned(left: 0, top: 160, child: _AiBannerLarge()),
+          Positioned(left: 0, top: 365, width: 343, child: _AiBannerRowOne()),
         ],
       ),
     );
@@ -2017,10 +1963,7 @@ class _AiContentHeader extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  '5',
-                  style: TextStyle(fontSize: 12, color: Colors.white),
-                ),
+                Text('5', style: TextStyle(fontSize: 12, color: Colors.white)),
                 SizedBox(width: 2),
                 Text(
                   'min',
@@ -2176,7 +2119,11 @@ class _AiSmallCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Icon(Icons.play_circle_fill, color: Colors.white, size: 18),
+                const Icon(
+                  Icons.play_circle_fill,
+                  color: Colors.white,
+                  size: 18,
+                ),
               ],
             ),
             const SizedBox(height: 4),
@@ -2425,7 +2372,9 @@ class GoalSettingsPage extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          _GoalNavBar(onBack: () => Navigator.of(context).pop()),
+                          _GoalNavBar(
+                            onBack: () => Navigator.of(context).pop(),
+                          ),
                           const SizedBox(height: 16),
                           const _GoalTargetCard(
                             title: '',
@@ -2489,7 +2438,9 @@ class _GoalNavBar extends StatelessWidget {
                 child: SizedBox(
                   width: 24,
                   height: 24,
-                  child: Image.asset('assets/images/goal_settings/gs_icon_back.png'),
+                  child: Image.asset(
+                    'assets/images/goal_settings/gs_icon_back.png',
+                  ),
                 ),
               ),
             ),
@@ -2552,7 +2503,10 @@ class _GoalTargetCard extends StatelessWidget {
               Container(
                 width: 16,
                 height: 16,
-                decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  shape: BoxShape.circle,
+                ),
                 child: Icon(icon, color: iconColor, size: 11),
               ),
               const SizedBox(width: 8),
@@ -2656,7 +2610,10 @@ class _GoalSaveButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.85), width: 2),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.85),
+          width: 2,
+        ),
         gradient: const LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -2803,15 +2760,21 @@ class _GenderCognitionPageState extends State<GenderCognitionPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _GenderNavBar(onBack: () => Navigator.of(context).pop()),
+                          _GenderNavBar(
+                            onBack: () => Navigator.of(context).pop(),
+                          ),
                           const SizedBox(height: 45),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const _GenderStepper(),
                           ),
                           const SizedBox(height: 61),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -2839,21 +2802,25 @@ class _GenderCognitionPageState extends State<GenderCognitionPage> {
                           ),
                           const SizedBox(height: 60),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: Column(
                               children: [
                                 _GenderOptionButton(
                                   text: '女性',
                                   icon: Icons.female,
                                   isSelected: selectedIndex == 0,
-                                  onTap: () => setState(() => selectedIndex = 0),
+                                  onTap: () =>
+                                      setState(() => selectedIndex = 0),
                                 ),
                                 const SizedBox(height: 16),
                                 _GenderOptionButton(
                                   text: '不确定',
                                   icon: Icons.help_outline_rounded,
                                   isSelected: selectedIndex == 1,
-                                  onTap: () => setState(() => selectedIndex = 1),
+                                  onTap: () =>
+                                      setState(() => selectedIndex = 1),
                                 ),
                               ],
                             ),
@@ -3003,14 +2970,8 @@ class _GenderOptionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           gradient: LinearGradient(
             colors: isSelected
-                ? [
-                    const Color(0xCC000000),
-                    const Color(0xCC373F34),
-                  ]
-                : [
-                    const Color(0xA6000000),
-                    const Color(0xA6373F34),
-                  ],
+                ? [const Color(0xCC000000), const Color(0xCC373F34)]
+                : [const Color(0xA6000000), const Color(0xA6373F34)],
           ),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.6),
@@ -3155,19 +3116,30 @@ class _TrackingIntentPageState extends State<TrackingIntentPage> {
                   child: SizedBox(
                     width: contentWidth,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, topInset, 0, 16 + bottomInset),
+                      padding: EdgeInsets.fromLTRB(
+                        0,
+                        topInset,
+                        0,
+                        16 + bottomInset,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _TrackingNavBar(onBack: () => Navigator.of(context).pop()),
+                          _TrackingNavBar(
+                            onBack: () => Navigator.of(context).pop(),
+                          ),
                           const SizedBox(height: 45),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const _TrackingStepper(),
                           ),
                           const SizedBox(height: 61),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -3195,21 +3167,25 @@ class _TrackingIntentPageState extends State<TrackingIntentPage> {
                           ),
                           const SizedBox(height: 60),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: Column(
                               children: [
                                 _TrackingOptionButton(
                                   text: '愿意完整追踪',
                                   icon: Icons.check_circle_outline,
                                   isSelected: selectedIndex == 0,
-                                  onTap: () => setState(() => selectedIndex = 0),
+                                  onTap: () =>
+                                      setState(() => selectedIndex = 0),
                                 ),
                                 const SizedBox(height: 16),
                                 _TrackingOptionButton(
                                   text: '先轻量追踪',
                                   icon: Icons.radio_button_unchecked,
                                   isSelected: selectedIndex == 1,
-                                  onTap: () => setState(() => selectedIndex = 1),
+                                  onTap: () =>
+                                      setState(() => selectedIndex = 1),
                                 ),
                               ],
                             ),
@@ -3359,14 +3335,8 @@ class _TrackingOptionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
           gradient: LinearGradient(
             colors: isSelected
-                ? [
-                    const Color(0xCC000000),
-                    const Color(0xCC373F34),
-                  ]
-                : [
-                    const Color(0xA6000000),
-                    const Color(0xA6373F34),
-                  ],
+                ? [const Color(0xCC000000), const Color(0xCC373F34)]
+                : [const Color(0xA6000000), const Color(0xA6373F34)],
           ),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.6),
@@ -3394,6 +3364,215 @@ class _TrackingOptionButton extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CycleDetails extends StatelessWidget {
+  const CycleDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final topInset = MediaQuery.of(context).padding.top;
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarDividerColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        // appBar: AppBar(),
+        backgroundColor: Colors.transparent,
+        extendBody: true,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final contentWidth = screenWidth < 375 ? screenWidth : 375.0;
+            final leftInset = (contentWidth - 319) / 2;
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/cycle_details/cd_bg_main.png',
+                      ),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    ),
+                  ),
+                ),
+                const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.0, 0.34, 0.72, 1.0],
+                      colors: [
+                        Color(0x14FFFFFF),
+                        Color(0x0FECE8D7),
+                        Color(0x22E4DFC5),
+                        Color(0x2ED7D2B4),
+                      ],
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 300),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: leftInset),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          Text(
+                            '建立您的专属周期模型',
+                            style: TextStyle(
+                              fontSize: 28,
+                              height: 1.5,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF333333),
+                            ),
+                          ),
+                          const SizedBox(height: 25),
+                          Text('HerPlus 将根据您的历史数据，为您预测下一次能量的高峰与低谷'),
+                          const SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('通常，你的经期会持续几天'),
+                              const SizedBox(height: 8),
+                              Container(
+                                constraints: const BoxConstraints(
+                                  minHeight: 40,
+                                ),
+                                padding: const EdgeInsets.fromLTRB(
+                                  14,
+                                  8,
+                                  14,
+                                  8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x63FFFFFF),
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x21918264),
+                                      offset: Offset(0, 5),
+                                      blurRadius: 3.7,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('两次的访问之间，通常间隔几天？'),
+                              const SizedBox(height: 8),
+                              Container(
+                                constraints: const BoxConstraints(
+                                  minHeight: 40,
+                                ),
+                                padding: const EdgeInsets.fromLTRB(
+                                  14,
+                                  8,
+                                  14,
+                                  8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x63FFFFFF),
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x21918264),
+                                      offset: Offset(0, 5),
+                                      blurRadius: 3.7,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('上一次经期是什么时候开始的'),
+                              const SizedBox(height: 8),
+                              Container(
+                                constraints: const BoxConstraints(
+                                  minHeight: 200,
+                                ),
+                                padding: const EdgeInsets.fromLTRB(
+                                  14,
+                                  8,
+                                  14,
+                                  8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0x63FFFFFF),
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x21918264),
+                                      offset: Offset(0, 5),
+                                      blurRadius: 3.7,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Container(
+                            height: 50,
+                            width: 350,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              gradient: LinearGradient(
+                                colors: [
+                                  const Color(0xCC000000),
+                                  const Color(0xCC373F34),
+                                ],
+                              ),
+                              border: Border.all(color: Colors.white, width: 1),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x40000000),
+                                  blurRadius: 18.1,
+                                  offset: Offset(0, 0),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              '下一步',
+                              style: const TextStyle(color: Colors.white,fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -3513,15 +3692,21 @@ class CycleDetailsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _CycleNavBar(onBack: () => Navigator.of(context).pop()),
+                          _CycleNavBar(
+                            onBack: () => Navigator.of(context).pop(),
+                          ),
                           const SizedBox(height: 45),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const _CycleStepper(),
                           ),
                           const SizedBox(height: 61),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -3549,7 +3734,9 @@ class CycleDetailsPage extends StatelessWidget {
                           ),
                           const Spacer(),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: leftInset),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: leftInset,
+                            ),
                             child: const _CyclePrimaryButton(),
                           ),
                           const SizedBox(height: 16),
@@ -3597,7 +3784,9 @@ class _CycleNavBar extends StatelessWidget {
             child: SizedBox(
               width: 24,
               height: 24,
-              child: Image.asset('assets/images/cycle_details/cd_icon_back.png'),
+              child: Image.asset(
+                'assets/images/cycle_details/cd_icon_back.png',
+              ),
             ),
           ),
         ),
