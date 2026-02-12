@@ -4,6 +4,9 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:herplus_app/system_settings.dart';
+
+import 'breathing_exercises.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,8 @@ class MyApp extends StatelessWidget {
   static const String cycleDetails = '周期详情';
   static const String bodyData = '身体数据';
   static const String privacyCommitment = '隐私承诺';
+  static const String breathingExercisesPage = '呼吸练习';
+  static const String systemSettingsPage = '系统设置';
 
   static const List<String> pageTitles = [
     dataPrivacy,
@@ -35,8 +40,8 @@ class MyApp extends StatelessWidget {
     bodyData,
     privacyCommitment,
     '查找设备',
-    '呼吸练习',
-    '系统设置',
+    breathingExercisesPage,
+    systemSettingsPage,
     '设备管家',
     '项目详情',
     '专家详情页',
@@ -81,6 +86,12 @@ class MainPage extends StatelessWidget {
     }
     if (title == MyApp.privacyCommitment) {
       return const _CycleAndBodyDataContainer(initialPage: 4);
+    }
+    if (title == MyApp.breathingExercisesPage) {
+      return const BreathingExercisesPage();
+    }
+    if (title == MyApp.systemSettingsPage) {
+      return const SystemSettingsPage();
     }
     return const BlankPage();
   }
