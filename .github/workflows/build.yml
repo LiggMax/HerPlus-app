@@ -8,71 +8,13 @@ on:
         required: true
         type: choice
         options:
-          - android
           - ios
-          - both
-      build_type:
-        description: '构建类型 (Android)'
-        required: false
-        type: choice
-        options:
-          - apk
-          - appbundle
-        default: apk
 
 jobs:
-  build-android:
-    name: Build Android
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version-file: pubspec.yaml
-          cache: true
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build APK (split per ABI)
-        if: ${{ github.event.inputs.build_type == 'apk' }}
-        run: flutter build apk --split-per-abi --release
-
-      - name: Build App Bundle
-        if: ${{ github.event.inputs.build_type == 'appbundle' }}
-        run: flutter build appbundle --release
-
-      - name: Upload APK files
-        if: ${{ github.event.inputs.build_type == 'apk' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-apk-split
-          path: build/app/outputs/flutter-apk/*.apk
-          retention-days: 30
-
-      - name: Upload App Bundle
-        if: ${{ github.event.inputs.build_type == 'appbundle' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-appbundle
-          path: build/app/outputs/bundle/release/app-release.aab
-          retention-days: 30
-
   build-ios:
     name: Build iOS
     runs-on: macos-latest
-    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
+    if: ${{ github.event.inputs.platform == 'ios'}}
     
     steps:
       - name: Checkout repository
