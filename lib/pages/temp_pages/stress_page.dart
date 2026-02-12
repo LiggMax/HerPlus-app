@@ -39,7 +39,6 @@ class StressPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 50),
                     Row(
                       children: [
                         Icon(
@@ -50,7 +49,7 @@ class StressPage extends StatelessWidget {
                         buildTabs(context),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
 
                     buildPannelGrids(),
 

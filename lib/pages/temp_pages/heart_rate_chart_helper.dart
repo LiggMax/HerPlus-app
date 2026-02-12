@@ -39,10 +39,12 @@ class HeartRateChartHelper {
 
         // 结束当前段（加上交叉点）
         currentSpots.add(crossSpot);
-        segments.add(HeartRateSegment(
-          spots: List.from(currentSpots),
-          isBelowThreshold: currentBelow,
-        ));
+        segments.add(
+          HeartRateSegment(
+            spots: List.from(currentSpots),
+            isBelowThreshold: currentBelow,
+          ),
+        );
 
         // 开始新段（从交叉点开始）
         currentSpots = [crossSpot, spot];
@@ -54,10 +56,9 @@ class HeartRateChartHelper {
 
     // 添加最后一段
     if (currentSpots.isNotEmpty) {
-      segments.add(HeartRateSegment(
-        spots: currentSpots,
-        isBelowThreshold: currentBelow,
-      ));
+      segments.add(
+        HeartRateSegment(spots: currentSpots, isBelowThreshold: currentBelow),
+      );
     }
 
     return segments;

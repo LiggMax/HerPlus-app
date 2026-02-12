@@ -256,72 +256,152 @@ class _BaseDataPageState extends State<BaseDataPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 8),
-              child: LineChart(
-                LineChartData(
-                  minY: 40,
-                  maxY: 160,
-                  gridData: FlGridData(
-                    show: true,
-                    drawVerticalLine: false,
-                    drawHorizontalLine: true,
-                    verticalInterval: 6,
-                    horizontalInterval: 40,
-                    getDrawingHorizontalLine: (value) {
-                      return FlLine(
-                        color: Colors.white.withOpacity(0.1),
-                        strokeWidth: 1,
-                      );
-                    },
-                  ),
-                  titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 35,
-                        interval: 40,
-                        getTitlesWidget: (value, meta) {
-                          return Text(
-                            value.toInt().toString(),
-                            style: TextStyle(color: Colors.white, fontSize: 11),
-                          );
-                        },
-                      ),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 30,
-                        interval: 6,
-                        getTitlesWidget: (value, meta) {
-                          if (value % 6 == 0) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(
-                                '${value.toInt().toString().padLeft(2, '0')}:00',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final data = _generateSampleData();
+                  final maxSpot = data.reduce((a, b) => a.y > b.y ? a : b);
+                  final minSpot = data.reduce((a, b) => a.y < b.y ? a : b);
+
+                  const leftReserved = 35.0;
+                  const bottomReserved = 30.0;
+                  const double minX = 0, maxX = 24, minY = 40, maxY = 160;
+
+                  final chartWidth = constraints.maxWidth - leftReserved;
+                  final chartHeight = constraints.maxHeight - bottomReserved;
+
+                  final maxPixelX =
+                      leftReserved +
+                      (maxSpot.x - minX) / (maxX - minX) * chartWidth;
+                  final maxPixelY =
+                      (1 - (maxSpot.y - minY) / (maxY - minY)) * chartHeight;
+
+                  final minPixelX =
+                      leftReserved +
+                      (minSpot.x - minX) / (maxX - minX) * chartWidth;
+                  final minPixelY =
+                      (1 - (minSpot.y - minY) / (maxY - minY)) * chartHeight;
+
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      LineChart(
+                        LineChartData(
+                          minY: 40,
+                          maxY: 160,
+                          gridData: FlGridData(
+                            show: true,
+                            drawVerticalLine: false,
+                            drawHorizontalLine: true,
+                            verticalInterval: 6,
+                            horizontalInterval: 40,
+                            getDrawingHorizontalLine: (value) {
+                              return FlLine(
+                                color: Colors.white.withOpacity(0.1),
+                                strokeWidth: 1,
+                              );
+                            },
+                          ),
+                          titlesData: FlTitlesData(
+                            leftTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 35,
+                                interval: 40,
+                                getTitlesWidget: (value, meta) {
+                                  return Text(
+                                    value.toInt().toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          }
-                          return SizedBox.shrink();
-                        },
+                            ),
+                            rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false),
+                            ),
+                            bottomTitles: AxisTitles(
+                              sideTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 30,
+                                interval: 6,
+                                getTitlesWidget: (value, meta) {
+                                  if (value % 6 == 0) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        '${value.toInt().toString().padLeft(2, '0')}:00',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                },
+                              ),
+                            ),
+                          ),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData:
+                              HeartRateChartHelper.buildSegmentedLineBars(data),
+                          lineTouchData: LineTouchData(enabled: false),
+                        ),
                       ),
-                    ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  lineBarsData: HeartRateChartHelper.buildSegmentedLineBars(
-                    _generateSampleData(),
-                  ),
-                  lineTouchData: LineTouchData(enabled: false),
-                ),
+                      // 最高点圆点
+                      Positioned(
+                        left: maxPixelX - 5,
+                        top: maxPixelY - 5,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      // 最低点圆点
+                      Positioned(
+                        left: minPixelX - 5,
+                        top: minPixelY - 5,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            border: BoxBorder.all(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            color: Color(0xFFFF8F41),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: maxPixelX - 39 / 2,
+                        top: maxPixelY - 35,
+                        child: buildHightIndicator(
+                          maxSpot.x.toInt(),
+                          maxSpot.y.toInt(),
+                        ),
+                      ),
+                      Positioned(
+                        left: minPixelX - 39 / 2,
+                        top: minPixelY - 35,
+                        child: buildLowIndicator(
+                          minSpot.x.toInt(),
+                          minSpot.y.toInt(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
@@ -347,6 +427,78 @@ class _BaseDataPageState extends State<BaseDataPage> {
       // const FlSpot(22, 85),
       const FlSpot(24, 75),
     ];
+  }
+
+  Widget buildHightIndicator(int x, int y) {
+    return Container(
+      width: 39,
+      height: 35,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/hight.png'),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 4),
+          Text(
+            '$y',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          Text(
+            '${x.toString().padLeft(2, '0')}:00',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 8,
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLowIndicator(int x, int y) {
+    return Container(
+      width: 39,
+      height: 35,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/low.png'),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 4),
+          Text(
+            '$y',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+          ),
+          Text(
+            '${x.toString().padLeft(2, '0')}:00',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 8,
+              height: 1.2,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   buildNightLineChartCard() {
