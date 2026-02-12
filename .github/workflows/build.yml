@@ -43,23 +43,23 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Get dependencies
+      - name: Get Flutter dependencies
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build APK (split per ABI)
         if: ${{ github.event.inputs.build_type == 'apk' }}
-        run: flutter build apk --release
+        run: flutter build apk --split-per-abi --release
 
       - name: Build App Bundle
         if: ${{ github.event.inputs.build_type == 'appbundle' }}
         run: flutter build appbundle --release
 
-      - name: Upload APK
+      - name: Upload APK files
         if: ${{ github.event.inputs.build_type == 'apk' }}
         uses: actions/upload-artifact@v4
         with:
-          name: android-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: android-apk-split
+          path: build/app/outputs/flutter-apk/*.apk
           retention-days: 30
 
       - name: Upload App Bundle
@@ -86,7 +86,7 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Get dependencies
+      - name: Get Flutter dependencies
         run: flutter pub get
 
       - name: Install CocoaPods dependencies
