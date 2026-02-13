@@ -159,7 +159,7 @@ class _FirmwareBottomButton extends StatelessWidget {
       child: const Opacity(
         opacity: 0.5,
         child: Text(
-          '....',
+          '设备升级中....',
           style: TextStyle(
             fontSize: 16,
             height: 1.17,
@@ -179,7 +179,6 @@ class _FirmwareUpdateCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      height: 185,
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       decoration: BoxDecoration(
         color: const Color(0x63FFFFFF),
@@ -225,11 +224,11 @@ class _FirmwareUpdateCard extends StatelessWidget {
               ),
             ),
           ),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Text(
-                '',
+                '更新内容',
                 style: TextStyle(
                   fontSize: 16,
                   height: 1.17,
@@ -238,18 +237,10 @@ class _FirmwareUpdateCard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-              Text(
-                '\n'
-                    '\n'
-                    '\n'
-                    ' ',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.5,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xFF333333),
-                ),
-              ),
+              Text('·提升心率稳定性'),
+              Text('·修复链接指环后出现的设备发热以及部分手机出现不兼容的情况'),
+              Text('·优化睡眠分期'),
+              Text('·修复连接中断'),
             ],
           ),
         ],
@@ -280,9 +271,9 @@ class _FirmwareVersionCard extends StatelessWidget {
       ),
       child: Column(
         children: const [
-          _FirmwareVersionRow(label: '', value: 'v2.24'),
+          _FirmwareVersionRow(label: '当前版本', value: 'v2.24'),
           Divider(height: 1, thickness: 1, color: Color(0x0D000000)),
-          _FirmwareVersionRow(label: '', value: 'v3.12'),
+          _FirmwareVersionRow(label: '最新版本', value: 'v3.12'),
         ],
       ),
     );
@@ -393,7 +384,7 @@ class _FirmwareProgressCard extends StatelessWidget {
               Opacity(
                 opacity: 0.8,
                 child: Text(
-                  '...',
+                  '正在升级中...',
                   style: TextStyle(
                     fontSize: 14,
                     height: 1.17,
@@ -407,7 +398,7 @@ class _FirmwareProgressCard extends StatelessWidget {
                   Opacity(
                     opacity: 0.8,
                     child: Text(
-                      ':',
+                      '预计:',
                       style: TextStyle(
                         fontSize: 14,
                         height: 1.17,
@@ -457,7 +448,16 @@ class _FirmwareHero extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(left: 89, top: 91, child: _FirmwarePedestal()),
+          Positioned(
+            left: 89,
+            top: 91,
+            child: Image.asset(
+              'assets/images/cycle_details/group.png',
+              width: 192,
+              height: 150,
+              fit: BoxFit.contain,
+            ),
+          ),
           Positioned(
             left: 136,
             top: 0,
@@ -577,67 +577,6 @@ class _BubbleClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
 
-class _FirmwarePedestal extends StatelessWidget {
-  const _FirmwarePedestal();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 192,
-      height: 150,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: const Alignment(0, -0.94),
-                  radius: 1,
-                  colors: const [Color(0xFFFFFFFF), Color(0x00FFFFFF)],
-                  stops: const [0.21681936085224152, 0.9308355450630188],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: 192,
-              height: 44,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.elliptical(96, 22)),
-                gradient: RadialGradient(
-                  center: Alignment(0, 0),
-                  radius: 1,
-                  colors: [Color(0xFFFAF7F0), Color(0xFFEAE7DE)],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 63,
-            top: 24,
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 3.1, sigmaY: 3.1),
-              child: Opacity(
-                opacity: 0.2,
-                child: Container(
-                  width: 66,
-                  height: 7,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF3E3F3C),
-                    borderRadius: BorderRadius.all(Radius.elliptical(33, 3.5)),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _FirmwareNavBar extends StatelessWidget {
   const _FirmwareNavBar({required this.onBack});

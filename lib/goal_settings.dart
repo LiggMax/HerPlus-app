@@ -1,4 +1,3 @@
-
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -123,7 +122,7 @@ class GoalSettingsPage extends StatelessWidget {
                           const SizedBox(height: 16),
                           const _GoalTargetCard(
                             title: '',
-                            value: '10,000',
+                            value: 10000,
                             icon: Icons.directions_run,
                             iconColor: Color(0xFFFF4D7F),
                             iconBg: Color(0xFFFFE8EE),
@@ -131,7 +130,7 @@ class GoalSettingsPage extends StatelessWidget {
                           const SizedBox(height: 12),
                           const _GoalTargetCard(
                             title: '',
-                            value: '2,500',
+                            value: 2500,
                             unit: 'kcal',
                             icon: Icons.local_fire_department,
                             iconColor: Color(0xFF91D824),
@@ -140,7 +139,7 @@ class GoalSettingsPage extends StatelessWidget {
                           const SizedBox(height: 12),
                           const _GoalTargetCard(
                             title: '/',
-                            value: '12',
+                            value: 12,
                             unit: '',
                             icon: Icons.access_time_filled,
                             iconColor: Color(0xFF3AA7FF),
@@ -276,22 +275,35 @@ class _GoalNavBar extends StatelessWidget {
   }
 }
 
-class _GoalTargetCard extends StatelessWidget {
-  const _GoalTargetCard({
-    required this.title,
-    required this.value,
-    required this.icon,
-    required this.iconColor,
-    required this.iconBg,
-    this.unit,
-  });
-
+class _GoalTargetCard extends StatefulWidget {
   final String title;
-  final String value;
+  final int value;
   final String? unit;
   final IconData icon;
   final Color iconColor;
   final Color iconBg;
+
+  const _GoalTargetCard(
+      {super.key,
+      required this.title,
+      required this.value,
+      this.unit,
+      required this.icon,
+      required this.iconColor,
+      required this.iconBg});
+
+  @override
+  State<_GoalTargetCard> createState() => _GoalTargetCardState();
+}
+
+class _GoalTargetCardState extends State<_GoalTargetCard> {
+  late int _number;
+
+  @override
+  void initState() {
+    super.initState();
+    _number = widget.value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -317,14 +329,14 @@ class _GoalTargetCard extends StatelessWidget {
                 width: 16,
                 height: 16,
                 decoration: BoxDecoration(
-                  color: iconBg,
+                  color: widget.iconBg,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: iconColor, size: 11),
+                child: Icon(widget.icon, color: widget.iconColor, size: 11),
               ),
               const SizedBox(width: 8),
               Text(
-                title,
+                widget.title,
                 style: const TextStyle(
                   fontSize: 14,
                   height: 1.17,
@@ -337,46 +349,60 @@ class _GoalTargetCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              const _GoalAdjustButton(symbol: '-'),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _number--;
+                  });
+                },
+                child: _GoalAdjustButton(symbol: '-'),
+              ),
               Expanded(
                 child: Center(
-                  child: unit == null
+                  child: widget.unit == null
                       ? Text(
-                    value,
-                    style: const TextStyle(
-                      fontSize: 40,
-                      height: 0.95,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF333333),
-                    ),
-                  )
-                      : RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: value,
+                          _number.toString(),
                           style: const TextStyle(
                             fontSize: 40,
                             height: 0.95,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF333333),
                           ),
-                        ),
-                        TextSpan(
-                          text: unit,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            height: 1.17,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFFB8B8B8),
+                        )
+                      : RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: _number.toString(),
+                                style: const TextStyle(
+                                  fontSize: 40,
+                                  height: 0.95,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF333333),
+                                ),
+                              ),
+                              TextSpan(
+                                text: widget.unit,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  height: 1.17,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFFB8B8B8),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
-              const _GoalAdjustButton(symbol: '+'),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    _number++;
+                  });
+                },
+                child: _GoalAdjustButton(symbol: '+'),
+              )
             ],
           ),
         ],
