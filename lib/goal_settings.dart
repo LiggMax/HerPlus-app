@@ -121,7 +121,7 @@ class GoalSettingsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           const _GoalTargetCard(
-                            title: '',
+                            title: '步数目标',
                             value: 10000,
                             icon: Icons.directions_run,
                             iconColor: Color(0xFFFF4D7F),
@@ -129,7 +129,7 @@ class GoalSettingsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           const _GoalTargetCard(
-                            title: '',
+                            title: '卡路里目标',
                             value: 2500,
                             unit: 'kcal',
                             icon: Icons.local_fire_department,
@@ -138,10 +138,10 @@ class GoalSettingsPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           const _GoalTargetCard(
-                            title: '/',
+                            title: '站立/活动',
                             value: 12,
-                            unit: '',
-                            icon: Icons.access_time_filled,
+                            unit: '小时',
+                            icon: Icons.more_time_rounded,
                             iconColor: Color(0xFF3AA7FF),
                             iconBg: Color(0xFFE3F2FF),
                           ),

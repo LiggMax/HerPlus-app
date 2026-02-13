@@ -132,8 +132,7 @@ class ExpertDetailsPage extends StatelessWidget {
                                       alignment: Alignment.centerLeft,
                                       child: InkWell(
                                         onTap: Navigator.of(context).pop,
-                                        borderRadius:
-                                            BorderRadius.circular(24),
+                                        borderRadius: BorderRadius.circular(24),
                                         child: const Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: Icon(
@@ -325,8 +324,7 @@ class ExpertDetailsPage extends StatelessWidget {
                                     child: SizedBox(
                                       height: 200,
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(20),
                                         child: Stack(
                                           children: [
                                             Positioned.fill(
@@ -344,10 +342,8 @@ class ExpertDetailsPage extends StatelessWidget {
                                                     const EdgeInsets.all(16),
                                                 decoration: BoxDecoration(
                                                   gradient: LinearGradient(
-                                                    begin:
-                                                        Alignment.topCenter,
-                                                    end: Alignment
-                                                        .bottomCenter,
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
                                                     colors: [
                                                       Colors.transparent,
                                                       Colors.black
@@ -368,20 +364,18 @@ class ExpertDetailsPage extends StatelessWidget {
                                                         Text(
                                                           '深度睡眠白噪音',
                                                           style: TextStyle(
-                                                            color:
-                                                                Colors.white,
+                                                            color: Colors.white,
                                                             fontSize: 16,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w600,
+                                                                FontWeight.w600,
                                                           ),
                                                         ),
                                                         SizedBox(height: 4),
                                                         Text(
                                                           '00:15',
                                                           style: TextStyle(
-                                                            color: Colors
-                                                                .white70,
+                                                            color:
+                                                                Colors.white70,
                                                             fontSize: 12,
                                                           ),
                                                         ),
@@ -390,14 +384,11 @@ class ExpertDetailsPage extends StatelessWidget {
                                                     Container(
                                                       width: 40,
                                                       height: 40,
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        color:
-                                                            Colors.white24,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white24,
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    50),
+                                                                .circular(50),
                                                       ),
                                                     ),
                                                   ],
@@ -581,18 +572,14 @@ class ExpertDetailsPage extends StatelessWidget {
 }
 
 /// Fixed input bar at the bottom
-class _BottomInputBar extends StatefulWidget {
-  @override
-  State<_BottomInputBar> createState() => _BottomInputBarState();
-}
-
-class _BottomInputBarState extends State<_BottomInputBar> {
-  final TextEditingController _textController = TextEditingController();
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
+class _BottomInputBar extends StatelessWidget {
+  void _showChatSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const _ChatBottomSheet(),
+    );
   }
 
   @override
@@ -636,33 +623,20 @@ class _BottomInputBarState extends State<_BottomInputBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _textController,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '向 Aura 提问..',
-                      hintStyle: TextStyle(
+                  child: GestureDetector(
+                    onTap: () => _showChatSheet(context),
+                    child: Text(
+                      '向 Aura 提问..',
+                      style: TextStyle(
                         color: Colors.white.withOpacity(0.6),
                         fontSize: 16,
                       ),
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.zero,
-                      isDense: true,
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 GestureDetector(
-                  onTap: () {
-                    final text = _textController.text.trim();
-                    if (text.isNotEmpty) {
-                      print('发送消息: $text');
-                      _textController.clear();
-                    }
-                  },
+                  onTap: () => _showChatSheet(context),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -691,6 +665,286 @@ class _BottomInputBarState extends State<_BottomInputBar> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ChatBottomSheet extends StatefulWidget {
+  const _ChatBottomSheet();
+
+  @override
+  State<_ChatBottomSheet> createState() => _ChatBottomSheetState();
+}
+
+class _ChatBottomSheetState extends State<_ChatBottomSheet> {
+  final TextEditingController _chatController = TextEditingController();
+
+  @override
+  void dispose() {
+    _chatController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+    final keyboardInset = MediaQuery.of(context).viewInsets.bottom;
+
+    return FractionallySizedBox(
+      heightFactor: 0.88,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.25),
+              border: const Border(
+                top: BorderSide(
+                  width: 0.5,
+                  color: Colors.white54,
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                // Drag handle
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    width: 36,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.black26,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+                  child: Row(
+                    children: [
+                      Image.asset('assets/images/cycle_details/aiimage.png'),
+                      const Text(
+                        'HerPlus AI',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF00FD58),
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.white24,
+                            ),
+                            color: Colors.white24,
+                          ),
+                          child: const Icon(Icons.close,color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Chat messages
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    children: [
+                      _buildAiMessage(
+                        '我注意到你最近的压力水平有点高，有什么特别让你困扰的事情吗？',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildUserMessage('是的，最近工作有点喘不过气。'),
+                      const SizedBox(height: 12),
+                      _buildAiMessage('明白了，能跟我说说是因为什么吗？'),
+                      const SizedBox(height: 12),
+                      _buildUserMessage('几个项目都赶在月底交付'),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+                // Input bar
+                _buildQuickReplies(),
+                _buildChatInputBar(
+                  keyboardInset > 0 ? keyboardInset : bottomInset + 12,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAiMessage(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.72,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(4),
+            bottomRight: Radius.circular(16),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            height: 1.4,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserMessage(String text) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width * 0.72,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
+            bottomRight: Radius.circular(4),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 15,
+            height: 1.4,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickReplies() {
+    final chips = ['赶工期', '和人争执', '莫名焦虑'];
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      alignment: Alignment.centerLeft,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: chips.map((label) {
+          return GestureDetector(
+            onTap: () {
+              _chatController.text = label;
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.black12,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                label,
+                style: const TextStyle(
+                  color: Color(0xFF66A1A8),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildChatInputBar(double bottomPadding) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16, 10, 16, bottomPadding),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.4),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _chatController,
+                style: const TextStyle(
+                  color: Color(0xFF333333),
+                  fontSize: 15,
+                ),
+                decoration: InputDecoration(
+                  hintText: '说说你的感受',
+                  hintStyle: TextStyle(
+                    color: Colors.black.withOpacity(0.35),
+                    fontSize: 15,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.zero,
+                  isDense: true,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            GestureDetector(
+              onTap: () {
+                final text = _chatController.text.trim();
+                if (text.isNotEmpty) {
+                  print('发送消息: $text');
+                  _chatController.clear();
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF4A90E2), Color(0xFF50C8B8)],
+                  ),
+                ),
+                child: const Text(
+                  '发送',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

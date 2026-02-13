@@ -481,31 +481,6 @@ class _FirmwareHero extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Positioned(
-            left: 199,
-            top: 146,
-            child: SizedBox(
-              width: 39,
-              height: 29,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  _FirmwareProgressBubbleShape(),
-                  const Center(
-                    child: Text(
-                      '58%',
-                      style: TextStyle(
-                        fontSize: 12,
-                        height: 1.17,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFFFFFFFF),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ],
       ),
     );
