@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:herplus_app/project_details.dart';
 import 'package:herplus_app/system_settings.dart';
 
+import 'algorithm_calibration.dart';
 import 'breathing_exercises.dart';
 import 'device_manager.dart';
 import 'expert_details.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
   static const String deviceManager = '设备管家';
   static const String projectDetails = '项目详情';
   static const String expertDetails = '专家详情页';
+  static const String algorithmCalibration = '算法校准';
 
   static const List<String> pageTitles = [
     dataPrivacy,
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
     deviceManager,
     projectDetails,
     expertDetails,
+    algorithmCalibration
   ];
 
   @override
@@ -107,6 +110,9 @@ class MainPage extends StatelessWidget {
     }
     if (title == MyApp.expertDetails) {
       return const ExpertDetailsPage();
+    }
+    if(title == MyApp.algorithmCalibration) {
+      return const AlgorithmCalibrationPage();
     }
     return const BlankPage();
   }
