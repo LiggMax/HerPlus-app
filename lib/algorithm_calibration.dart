@@ -278,10 +278,10 @@ class _CardState extends State<_Card> {
               ),
               Text.rich(TextSpan(children: [
                 TextSpan(
-                    text: '${number}',
+                    text: '$number',
                     style:
                         TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                TextSpan(text: '天')
+                TextSpan(text: '天',style: TextStyle(color: Colors.black45))
               ])),
               InkWell(
                 onTap: () {
