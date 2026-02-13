@@ -189,7 +189,7 @@ class _GoalSaveButton extends StatelessWidget {
         ],
       ),
       child: const Text(
-        '',
+        '保存',
         style: TextStyle(
           fontSize: 16,
           height: 1.17,
