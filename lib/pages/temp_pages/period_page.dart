@@ -1,8 +1,15 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
 
-class PeriodPage extends StatelessWidget {
+class PeriodPage extends StatefulWidget {
   const PeriodPage({super.key});
+
+  @override
+  State<PeriodPage> createState() => _PeriodPageState();
+}
+
+class _PeriodPageState extends State<PeriodPage> {
+  final Set<String> _selectedSymptoms = {};
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +112,20 @@ class PeriodPage extends StatelessWidget {
                           Column(
                             children: [
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('我的症状'),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '我的症状',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Container(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 5,
@@ -114,17 +133,12 @@ class PeriodPage extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Color(0xFF0EB0E0),
-                                          Colors.lightGreenAccent
+                                          Color(0xFF4ECDC4),
+                                          Color(0xFF9FD8B0),
                                         ],
                                         begin: Alignment.centerLeft,
                                         end: Alignment.centerRight,
                                       ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.blueAccent,
-                                        )
-                                      ],
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Row(
@@ -134,11 +148,30 @@ class PeriodPage extends StatelessWidget {
                                           color: Colors.white,
                                           size: 20,
                                         ),
-                                        Text('记录',style: TextStyle(color: Colors.white,fontSize: 10),),
+                                        Text(
+                                          '记录',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ],
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Wrap(
+                                  children: [
+                                    _card('🤒', '发烧'),
+                                    _card('🤕', '头疼'),
+                                    _card('🍽️', '食欲好'),
+                                    _card('😴', '犯困'),
+                                    _card('😩', '乏力疲倦'),
+                                    _card('🤢', '反胃'),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -175,6 +208,51 @@ class PeriodPage extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _card(String icon, String title) {
+    final isSelected = _selectedSymptoms.contains(title);
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          if (isSelected) {
+            _selectedSymptoms.remove(title);
+          } else {
+            _selectedSymptoms.add(title);
+          }
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        margin: EdgeInsets.only(right: 8, top: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF4ECDC4) : const Color(0x63FFFFFF),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x21918264),
+              offset: Offset(0, 5),
+              blurRadius: 3.7,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(icon, style: TextStyle(fontSize: 10)),
+            SizedBox(width: 6),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 10,
+                color: isSelected ? Colors.white : null,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
           ],
