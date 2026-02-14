@@ -84,11 +84,16 @@ class NewPage extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (bounds) {
         return LinearGradient(
-          begin: Alignment(-0.19, -2), // ~11 degrees offset
-          end: Alignment(0.19, 0.5),
-          colors: [Color(0xFF2A2A2A), Color(0xFFB69383)],
-        ).createShader(Offset.zero & bounds.size);
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF2A2A2A),
+            Color(0xFFB69383),
+          ],
+          stops: [0.0, 1.0],
+        ).createShader(bounds);
       },
+      blendMode: BlendMode.srcIn,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -97,7 +102,7 @@ class NewPage extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w400,
               color: Colors.white, // Required for ShaderMask to show colors
             ),
           ),

@@ -1,6 +1,8 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:flutter/material.dart';
 
+import 'calendar.dart';
+
 class PeriodPage extends StatefulWidget {
   const PeriodPage({super.key});
 
@@ -187,23 +189,24 @@ class _PeriodPageState extends State<PeriodPage> {
                               ),
                             ],
                           ),
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage('assets/images/fake2_5.png'),
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                            height: 432,
-                            child: Image.asset(
-                              'assets/images/fake2_4.png',
-                              height: 408,
-                              fit: BoxFit.fitWidth,
-
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                          ),
+                          CalendarView(),
+                          // Container(
+                          //   padding: EdgeInsets.all(16),
+                          //   decoration: BoxDecoration(
+                          //     image: DecorationImage(
+                          //       image: AssetImage('assets/images/fake2_5.png'),
+                          //       fit: BoxFit.fitWidth,
+                          //     ),
+                          //   ),
+                          //   height: 432,
+                          //   child: Image.asset(
+                          //     'assets/images/fake2_4.png',
+                          //     height: 408,
+                          //     fit: BoxFit.fitWidth,
+                          //
+                          //     width: MediaQuery.of(context).size.width,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),
