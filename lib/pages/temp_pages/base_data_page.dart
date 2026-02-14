@@ -1,7 +1,5 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:herplus/core/utils/nav_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'heart_rate_chart_helper.dart';
 
@@ -385,7 +383,7 @@ class _BaseDataPageState extends State<BaseDataPage> {
                       ),
                       Positioned(
                         left: maxPixelX - 39 / 2,
-                        top: maxPixelY - 35,
+                        top: maxPixelY - 43,
                         child: buildHightIndicator(
                           maxSpot.x.toInt(),
                           maxSpot.y.toInt(),
@@ -393,7 +391,7 @@ class _BaseDataPageState extends State<BaseDataPage> {
                       ),
                       Positioned(
                         left: minPixelX - 39 / 2,
-                        top: minPixelY - 35,
+                        top: minPixelY - 43,
                         child: buildLowIndicator(
                           minSpot.x.toInt(),
                           minSpot.y.toInt(),

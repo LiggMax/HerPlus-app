@@ -5,8 +5,15 @@ import 'package:herplus/pages/community/community_page.dart';
 import 'package:herplus/pages/index/index_page.dart';
 import 'package:herplus/pages/mine/mine_page.dart';
 import 'package:herplus/pages/temp_pages/base_data_page.dart';
+import 'package:herplus/pages/temp_pages/heart_error_page.dart';
+import 'package:herplus/pages/temp_pages/lab_page.dart';
+import 'package:herplus/pages/temp_pages/period_page.dart' show PeriodPage;
+import 'package:herplus/pages/temp_pages/power_detail_page.dart';
+import 'package:herplus/pages/temp_pages/report_page.dart';
+import 'package:herplus/pages/temp_pages/sleep_detail_page.dart';
 import 'package:herplus/pages/temp_pages/stress_page.dart';
 
+import 'app_page/index.dart';
 import 'new/new_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -134,6 +141,18 @@ class _HomePageState extends State<HomePage> {
         children: [
           GestureDetector(
             onTap: () {
+              NavUtils.push(AppPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转菜单")),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
               NavUtils.push(BaseDataPage());
             },
             child: Container(
@@ -156,30 +175,84 @@ class _HomePageState extends State<HomePage> {
               child: Center(child: Text("跳转页面 1")),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 8),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(SleepDetailPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
 
-            color: Colors.white,
-            height: 40,
-            width: 40,
-            child: Center(child: Text("跳转页面 1")),
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 8),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(PeriodPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
 
-            color: Colors.white,
-            height: 40,
-            width: 40,
-            child: Center(child: Text("跳转页面 1")),
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
           ),
-          Container(
-            margin: EdgeInsets.only(bottom: 8),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(PowerDetailPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
 
-            color: Colors.white,
-            height: 40,
-            width: 40,
-            child: Center(child: Text("跳转页面 1")),
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
           ), // 占位，避免与底部导航栏重叠
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(HeartErrorPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(ReportPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              NavUtils.push(LabPage());
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 8),
+
+              color: Colors.white,
+              height: 40,
+              width: 40,
+              child: Center(child: Text("跳转页面 1")),
+            ),
+          ),
         ],
       ),
     );

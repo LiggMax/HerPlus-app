@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:herplus/core/utils/nav_utils.dart';
+import 'package:herplus/pages/temp_pages/heart_error_page.dart';
+import 'package:herplus/pages/temp_pages/stress_page.dart';
 
 class IndexPage extends StatelessWidget {
   const IndexPage({super.key});
@@ -156,50 +159,55 @@ class IndexPage extends StatelessWidget {
 
   //MARK 心率
   buildHeart() {
-    return Container(
-      padding: EdgeInsets.all(16),
-      height: 260,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/heart_bg.png'),
-          fit: BoxFit.fill,
+    return InkWell(
+      // onTap: () {
+      //   NavUtils.push(HeartErrorPage());
+      // },
+      child: Container(
+        padding: EdgeInsets.all(16),
+        height: 260,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/heart_bg.png'),
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("心如止水", style: TextStyle(fontSize: 18, color: Colors.white)),
-          Text("心率", style: TextStyle(fontSize: 10, color: Colors.white)),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "94 ",
-                      style: TextStyle(fontSize: 10, color: Colors.white),
-                    ),
-                    Text(
-                      "bpm",
-                      style: TextStyle(fontSize: 10, color: Colors.white),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: CustomPaint(
-                      size: Size.infinite,
-                      painter: SmoothLineChartPainter(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("心如止水", style: TextStyle(fontSize: 18, color: Colors.white)),
+            Text("心率", style: TextStyle(fontSize: 10, color: Colors.white)),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "94 ",
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                      Text(
+                        "bpm",
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: CustomPaint(
+                        size: Size.infinite,
+                        painter: SmoothLineChartPainter(),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -556,13 +564,6 @@ class LineChartPainter extends CustomPainter {
 class SmoothLineChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    final path = Path();
     final points = [
       Offset(0, size.height * 0.8),
       Offset(size.width * 0.15, size.height * 0.3),
@@ -573,7 +574,9 @@ class SmoothLineChartPainter extends CustomPainter {
       Offset(size.width, size.height * 0.9),
     ];
 
-    path.moveTo(points[0].dx, points[0].dy);
+    // 绘制渐变阴影
+    final gradientPath = Path();
+    gradientPath.moveTo(points[0].dx, points[0].dy);
 
     for (var i = 0; i < points.length - 1; i++) {
       final p0 = points[i];
@@ -581,7 +584,7 @@ class SmoothLineChartPainter extends CustomPainter {
       final controlPoint1 = Offset(p0.dx + (p1.dx - p0.dx) / 2, p0.dy);
       final controlPoint2 = Offset(p0.dx + (p1.dx - p0.dx) / 2, p1.dy);
 
-      path.cubicTo(
+      gradientPath.cubicTo(
         controlPoint1.dx,
         controlPoint1.dy,
         controlPoint2.dx,
@@ -591,7 +594,49 @@ class SmoothLineChartPainter extends CustomPainter {
       );
     }
 
-    canvas.drawPath(path, paint);
+    // 闭合路径到底部
+    gradientPath.lineTo(size.width, size.height);
+    gradientPath.lineTo(0, size.height);
+    gradientPath.close();
+
+    // 创建白色到透明的渐变
+    final gradientPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Colors.white.withOpacity(0.3), Colors.white.withOpacity(0.0)],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.fill;
+
+    canvas.drawPath(gradientPath, gradientPaint);
+
+    // 绘制曲线
+    final linePaint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final linePath = Path();
+    linePath.moveTo(points[0].dx, points[0].dy);
+
+    for (var i = 0; i < points.length - 1; i++) {
+      final p0 = points[i];
+      final p1 = points[i + 1];
+      final controlPoint1 = Offset(p0.dx + (p1.dx - p0.dx) / 2, p0.dy);
+      final controlPoint2 = Offset(p0.dx + (p1.dx - p0.dx) / 2, p1.dy);
+
+      linePath.cubicTo(
+        controlPoint1.dx,
+        controlPoint1.dy,
+        controlPoint2.dx,
+        controlPoint2.dy,
+        p1.dx,
+        p1.dy,
+      );
+    }
+
+    canvas.drawPath(linePath, linePaint);
   }
 
   @override

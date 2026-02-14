@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:herplus/core/utils/nav_utils.dart';
-import 'package:herplus/pages/mine/privacy/data_privacy_page.dart';
 
 class MinePage extends StatelessWidget {
   const MinePage({super.key});
@@ -71,7 +69,7 @@ class MinePage extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/ring_bg.png"),
+              image: AssetImage("assets/images/device_bg.png"),
               fit: BoxFit.fill,
             ),
           ),
@@ -83,6 +81,7 @@ class MinePage extends StatelessWidget {
                     "张三的手表",
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
+                  SizedBox(width: 2),
                   Container(
                     width: 50,
                     height: 18,
@@ -111,6 +110,7 @@ class MinePage extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: 20),
               Row(
                 children: [
                   Container(
@@ -121,7 +121,20 @@ class MinePage extends StatelessWidget {
                         image: AssetImage("assets/images/energe.png"),
                       ),
                     ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 4,
+                          right: 7,
+                          child: Text(
+                            "70%",
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  SizedBox(width: 10),
                   Container(
                     width: 65,
                     height: 28,
@@ -130,9 +143,22 @@ class MinePage extends StatelessWidget {
                         image: AssetImage("assets/images/version.png"),
                       ),
                     ),
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 4,
+                          right: 7,
+                          child: Text(
+                            "70%",
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
+              SizedBox(height: 20),
 
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -274,7 +300,9 @@ class MinePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildFuncRow("账号安全", "assets/icons/people.png", null),
+
           Divider(color: Colors.white.withAlpha(24)),
+
           _buildFuncRow("隐私数据", "assets/icons/sercurity.png", () {
             // NavUtils.push(DataPrivacyPage());
           }),
@@ -288,16 +316,13 @@ class MinePage extends StatelessWidget {
   }
 
   _buildFuncRow(String title, String iconPath, VoidCallback? onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Row(
-        children: [
-          Image.asset(iconPath, width: 20, height: 20),
-          SizedBox(width: 14),
-          Text(title),
-          Spacer(),
-        ],
-      ),
+    return Row(
+      children: [
+        Image.asset(iconPath, width: 20, height: 20),
+        SizedBox(width: 14),
+        Text(title),
+        Spacer(),
+      ],
     );
   }
 }

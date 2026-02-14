@@ -206,26 +206,33 @@ class StressPage extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  height: 65,
-                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+                  height: 70,
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/bg5.png'),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
 
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  child: Row(
                     children: [
-                      Text("今日平均压力"),
-                      Row(
+                      SizedBox(width: 64),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("42"),
-                          Image.asset(
-                            "assets/images/label2.png",
-                            width: 40,
-                            height: 19,
+                          Text("今日平均压力"),
+                          Row(
+                            children: [
+                              Text("42"),
+                              SizedBox(width: 2),
+
+                              Image.asset(
+                                "assets/images/label2.png",
+                                width: 40,
+                                height: 19,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -235,25 +242,22 @@ class StressPage extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  height: 65,
+                  height: 70,
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/bg6.png'),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitWidth,
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  child: Row(
                     children: [
-                      Text("今日平均压力"),
-                      Row(
+                      SizedBox(width: 64),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("42"),
-                          Image.asset(
-                            "assets/images/label2.png",
-                            width: 40,
-                            height: 19,
-                          ),
+                          Text("HRV"),
+                          Row(children: [Text("58"), Text("ms")]),
                         ],
                       ),
                     ],
@@ -261,6 +265,19 @@ class StressPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: 12),
+          Image.asset(
+            'assets/images/fake_line.png',
+            height: 222,
+            width: double.infinity,
+          ),
+
+          Row(children: [Text("📝 情绪气象记录", style: TextStyle(fontSize: 16))]),
+          Image.asset(
+            'assets/images/fake_line2.png',
+            height: 222,
+            width: double.infinity,
           ),
         ],
       ),

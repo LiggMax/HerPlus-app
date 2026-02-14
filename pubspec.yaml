@@ -63,6 +63,13 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/images/cycle_details/
+    - assets/images/data_privacy/
+    - assets/images/firmware_upgrade/
+    - assets/images/gender_cognition/
+    - assets/images/goal_settings/
+    - assets/images/goal_settings/
+    - assets/images/tracking_intent/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

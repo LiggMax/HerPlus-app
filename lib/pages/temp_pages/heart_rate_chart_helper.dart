@@ -100,7 +100,7 @@ class HeartRateChartHelper {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              color.withOpacity(0.4),
+              color.withOpacity(0.2),
               color.withOpacity(0.1),
               Colors.transparent,
             ],
