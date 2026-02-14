@@ -102,13 +102,13 @@ class _PeriodPageState extends State<PeriodPage> {
 
                             width: MediaQuery.of(context).size.width,
                           ),
-                          Image.asset(
-                            'assets/images/fake2_3.png',
-                            height: 106,
-                            fit: BoxFit.fitWidth,
-
-                            width: MediaQuery.of(context).size.width,
-                          ),
+                          // Image.asset(
+                          //   'assets/images/fake2_3.png',
+                          //   height: 106,
+                          //   fit: BoxFit.fitWidth,
+                          //
+                          //   width: MediaQuery.of(context).size.width,
+                          // ),
                           Column(
                             children: [
                               Row(
@@ -117,6 +117,7 @@ class _PeriodPageState extends State<PeriodPage> {
                                 children: [
                                   Row(
                                     children: [
+                                      Text('📝'),
                                       Text(
                                         '我的症状',
                                         style: TextStyle(
