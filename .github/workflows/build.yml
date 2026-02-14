@@ -1,0 +1,48 @@
+name: Build Flutter Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: '选择构建平台'
+        required: true
+        type: choice
+        options:
+          - ios
+
+jobs:
+  flutter-build_ios:
+    if: ${{github.event.inputs.platform == 'ios'}}
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Show available simulators
+        run: |
+          xcrun simctl list devices
+          xcodebuild -showsdks
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Create IPA
+        run: |
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/Runner.app
+          zip -q -r "AnimeFlow-ios.ipa" Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: AnimeFlow-ios.ipa

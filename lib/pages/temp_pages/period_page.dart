@@ -190,23 +190,6 @@ class _PeriodPageState extends State<PeriodPage> {
                             ],
                           ),
                           CalendarView(),
-                          // Container(
-                          //   padding: EdgeInsets.all(16),
-                          //   decoration: BoxDecoration(
-                          //     image: DecorationImage(
-                          //       image: AssetImage('assets/images/fake2_5.png'),
-                          //       fit: BoxFit.fitWidth,
-                          //     ),
-                          //   ),
-                          //   height: 432,
-                          //   child: Image.asset(
-                          //     'assets/images/fake2_4.png',
-                          //     height: 408,
-                          //     fit: BoxFit.fitWidth,
-                          //
-                          //     width: MediaQuery.of(context).size.width,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),

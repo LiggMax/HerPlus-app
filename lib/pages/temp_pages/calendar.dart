@@ -119,7 +119,7 @@ class _CalendarViewState extends State<CalendarView> {
                         }
                         return _buildDayCell(monthNumber, day);
                       },
-                    ),
+                    ),  
                   ),
                 ],
               ),

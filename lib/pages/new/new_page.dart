@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:herplus/pages/new/tabs.dart';
 
 class NewPage extends StatelessWidget {
   const NewPage({super.key});
@@ -22,7 +23,7 @@ class NewPage extends StatelessWidget {
             buildBanner(),
             buildTitle("专家阵容流"),
             SizedBox(height: 10),
-            buildTabs(),
+            TabsView(),
             buildExperts(),
             SizedBox(height: 10),
             Row(
@@ -86,10 +87,7 @@ class NewPage extends StatelessWidget {
         return LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF2A2A2A),
-            Color(0xFFB69383),
-          ],
+          colors: [Color(0xFF2A2A2A), Color(0xFFF8B595)],
           stops: [0.0, 1.0],
         ).createShader(bounds);
       },
@@ -111,122 +109,6 @@ class NewPage extends StatelessWidget {
     );
   }
 
-  buildTabs() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(width: 16),
-        InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {},
-          child: Container(
-            margin: EdgeInsets.only(right: 8),
-            height: 42,
-            width: 85,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/all.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 8,
-                  right: 16,
-                  child: Text("全部", style: TextStyle(fontSize: 14)),
-                ),
-              ],
-            ),
-          ),
-        ),
-        InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {},
-          child: Container(
-            height: 36.5,
-            width: 85,
-            margin: EdgeInsets.only(right: 8),
-
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/sleep_tab.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 8,
-                  right: 16,
-                  child: Text(
-                    "助眠",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {},
-          child: Container(
-            height: 36.5,
-            width: 85,
-            margin: EdgeInsets.only(right: 8),
-
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/stress_tab.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 8,
-                  right: 16,
-                  child: Text(
-                    "减压",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        InkWell(
-          borderRadius: BorderRadius.circular(50),
-          onTap: () {},
-          child: Container(
-            height: 36.5,
-            margin: EdgeInsets.only(right: 8),
-            width: 85,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/time_tab.png"),
-                fit: BoxFit.fill,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 8,
-                  right: 16,
-                  child: Text(
-                    "经期",
-                    style: TextStyle(fontSize: 14, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   buildExperts() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -242,6 +124,29 @@ class NewPage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/expert_1.png"),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("名字", style: TextStyle(color: Colors.white, fontSize: 18)),
+                Text(
+                  "专业领域",
+                  style: TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 181,
+            width: 127,
+            margin: EdgeInsets.only(right: 8),
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/expert_2.png"),
                 fit: BoxFit.fill,
               ),
             ),
